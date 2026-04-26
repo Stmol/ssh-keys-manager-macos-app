@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: macos-latest
+
+    env:
+      TAG_NAME: ${{ github.ref_name }}
+      VERSION: ${{ startsWith(github.ref_name, 'v') && github.ref_name || format('v{0}', github.ref_name) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build release assets
+        run: |
+          make clean-release
+          make release-assets VERSION="${VERSION}"
+
+      - name: Generate release notes
+        run: |
+          bash scripts/generate-release-notes.sh \
+            --current-tag "${TAG_NAME}" \
+            --output RELEASE_NOTES.md
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssh-keys-manager-${{ env.VERSION }}
+          path: |
+            dist/SSH-Keys-Manager-${{ env.VERSION }}.dmg
+            dist/SSH-Keys-Manager.dmg
+            dist/SSH-Keys-Manager-${{ env.VERSION }}-dSYMs.zip
+          if-no-files-found: error
+
+      - name: Create GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          body_path: RELEASE_NOTES.md
+          files: |
+            dist/SSH-Keys-Manager-${{ env.VERSION }}.dmg
+            dist/SSH-Keys-Manager.dmg
+            dist/SSH-Keys-Manager-${{ env.VERSION }}-dSYMs.zip

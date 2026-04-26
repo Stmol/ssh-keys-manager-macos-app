@@ -1,0 +1,871 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A00000000000000000001001 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000001 /* ContentView.swift */; };
+		A00000000000000000001002 /* SSH_Keys_ManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000002 /* SSH_Keys_ManagerApp.swift */; };
+		A00000000000000000001003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000003 /* Assets.xcassets */; };
+		A00000000000000000001004 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000004 /* AppModel.swift */; };
+		A00000000000000000001005 /* AppTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000005 /* AppTab.swift */; };
+		A00000000000000000001007 /* SSHConfigEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000007 /* SSHConfigEntry.swift */; };
+		A00000000000000000001008 /* SSHKeyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000008 /* SSHKeyItem.swift */; };
+		A00000000000000000001009 /* DetailField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000009 /* DetailField.swift */; };
+		A0000000000000000000100A /* DetailTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000A /* DetailTitle.swift */; };
+		A0000000000000000000100B /* InfoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000B /* InfoCard.swift */; };
+		A0000000000000000000100C /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000C /* SectionHeader.swift */; };
+		A0000000000000000000100D /* AppShellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000D /* AppShellView.swift */; };
+		A0000000000000000000100E /* HeaderTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000E /* HeaderTabsView.swift */; };
+		A0000000000000000000100F /* SSHConfigDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000F /* SSHConfigDetailView.swift */; };
+		A00000000000000000001010 /* SSHConfigEntryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000010 /* SSHConfigEntryList.swift */; };
+		A00000000000000000001011 /* SSHConfigRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000011 /* SSHConfigRow.swift */; };
+		A00000000000000000001012 /* SSHConfigSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000012 /* SSHConfigSidebar.swift */; };
+		A00000000000000000001013 /* SSHConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000013 /* SSHConfigView.swift */; };
+		A00000000000000000001014 /* SSHKeyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000014 /* SSHKeyDetailView.swift */; };
+		A00000000000000000001015 /* SSHKeyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000015 /* SSHKeyList.swift */; };
+		A00000000000000000001016 /* SSHKeyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000016 /* SSHKeyRow.swift */; };
+		A00000000000000000001017 /* SSHKeysSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000017 /* SSHKeysSidebar.swift */; };
+		A00000000000000000001018 /* SSHKeysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000018 /* SSHKeysView.swift */; };
+		A00000000000000000001019 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000019 /* SettingsView.swift */; };
+		A0000000000000000000101A /* SSHKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001A /* SSHKeyStore.swift */; };
+		A0000000000000000000101B /* SSHKeyFileActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001B /* SSHKeyFileActions.swift */; };
+		A0000000000000000000101C /* SSHKeyListKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001C /* SSHKeyListKind.swift */; };
+		A0000000000000000000101D /* SSHKeySortOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001D /* SSHKeySortOrder.swift */; };
+		A0000000000000000000101E /* SSHKeyItem+Naming.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001E /* SSHKeyItem+Naming.swift */; };
+		A0000000000000000000101F /* ToolbarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001F /* ToolbarIcon.swift */; };
+		A00000000000000000001020 /* SSHKeyDetailContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000020 /* SSHKeyDetailContent.swift */; };
+		A00000000000000000001021 /* SSHKeyMetadataCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000021 /* SSHKeyMetadataCard.swift */; };
+		A00000000000000000001022 /* SSHKeyActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000022 /* SSHKeyActionsView.swift */; };
+		A00000000000000000001023 /* SSHKeyEditSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000023 /* SSHKeyEditSheets.swift */; };
+		A00000000000000000001024 /* SSHKeyStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000024 /* SSHKeyStoreTests.swift */; };
+		A00000000000000000001025 /* NotificationBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000026 /* NotificationBanner.swift */; };
+		A00000000000000000001026 /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000027 /* AppButton.swift */; };
+		A00000000000000000001028 /* SortOrderMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000028 /* SortOrderMenu.swift */; };
+		A00000000000000000001029 /* FormControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000029 /* FormControls.swift */; };
+		A0000000000000000000102A /* CopyableDetailValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002A /* CopyableDetailValue.swift */; };
+		A0000000000000000000102B /* AppModelDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002B /* AppModelDependencies.swift */; };
+		A0000000000000000000102C /* AppModel+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002C /* AppModel+Loading.swift */; };
+		A0000000000000000000102D /* AppModel+KeyOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002D /* AppModel+KeyOperations.swift */; };
+		A0000000000000000000102E /* AppModel+ConfigOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002E /* AppModel+ConfigOperations.swift */; };
+		A0000000000000000000102F /* SSHKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002F /* SSHKeyStorage.swift */; };
+		A00000000000000000001030 /* SSHConfigStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000030 /* SSHConfigStorage.swift */; };
+		A00000000000000000001031 /* SSHConfigParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000031 /* SSHConfigParser.swift */; };
+		A00000000000000000001032 /* SSHKeyInventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000032 /* SSHKeyInventory.swift */; };
+		A00000000000000000001033 /* SSHKeyGenerationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000033 /* SSHKeyGenerationRequest.swift */; };
+		A00000000000000000001034 /* SSHConfigField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000034 /* SSHConfigField.swift */; };
+		A00000000000000000001035 /* SSHConfigHostProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000035 /* SSHConfigHostProperty.swift */; };
+		A00000000000000000001036 /* SSHConfigHostSaveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000036 /* SSHConfigHostSaveRequest.swift */; };
+		A00000000000000000001037 /* SSHConfigSortOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000037 /* SSHConfigSortOrder.swift */; };
+		A00000000000000000001038 /* SSHConfigWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000038 /* SSHConfigWriter.swift */; };
+		A00000000000000000001039 /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000039 /* AppPreferences.swift */; };
+		A0000000000000000000103A /* AppModel+Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003A /* AppModel+Workspace.swift */; };
+		A0000000000000000000103B /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003B /* EmptyStateView.swift */; };
+		A0000000000000000000103C /* SSHKeysMenuBarExtra.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003C /* SSHKeysMenuBarExtra.swift */; };
+		A0000000000000000000103D /* AppPreferenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003D /* AppPreferenceModels.swift */; };
+		A0000000000000000000103E /* SSHWorkspaceSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003E /* SSHWorkspaceSupport.swift */; };
+		A0000000000000000000103F /* ExternalToolSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003F /* ExternalToolSupport.swift */; };
+		A00000000000000000001040 /* SSHKeyNameEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000040 /* SSHKeyNameEditorView.swift */; };
+		A00000000000000000001041 /* SSHKeyPassphraseViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000041 /* SSHKeyPassphraseViews.swift */; };
+		A00000000000000000001042 /* SSHKeyDeleteAndGenerateViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000042 /* SSHKeyDeleteAndGenerateViews.swift */; };
+		A00000000000000000001043 /* SSHConfigHostEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000043 /* SSHConfigHostEditorView.swift */; };
+		A00000000000000000001044 /* SSHConfigDeleteHostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000044 /* SSHConfigDeleteHostView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A00000000000000000004002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F763D5C52F99202000B0E8E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F763D5CC2F99202000B0E8E2;
+			remoteInfo = "SSH Keys Manager";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A00000000000000000000001 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A00000000000000000000002 /* SSH_Keys_ManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSH_Keys_ManagerApp.swift; sourceTree = "<group>"; };
+		A00000000000000000000003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A00000000000000000000004 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		A00000000000000000000005 /* AppTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTab.swift; sourceTree = "<group>"; };
+		A00000000000000000000007 /* SSHConfigEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigEntry.swift; sourceTree = "<group>"; };
+		A00000000000000000000008 /* SSHKeyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyItem.swift; sourceTree = "<group>"; };
+		A00000000000000000000009 /* DetailField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailField.swift; sourceTree = "<group>"; };
+		A0000000000000000000000A /* DetailTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTitle.swift; sourceTree = "<group>"; };
+		A0000000000000000000000B /* InfoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCard.swift; sourceTree = "<group>"; };
+		A0000000000000000000000C /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
+		A0000000000000000000000D /* AppShellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShellView.swift; sourceTree = "<group>"; };
+		A0000000000000000000000E /* HeaderTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTabsView.swift; sourceTree = "<group>"; };
+		A0000000000000000000000F /* SSHConfigDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigDetailView.swift; sourceTree = "<group>"; };
+		A00000000000000000000010 /* SSHConfigEntryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigEntryList.swift; sourceTree = "<group>"; };
+		A00000000000000000000011 /* SSHConfigRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigRow.swift; sourceTree = "<group>"; };
+		A00000000000000000000012 /* SSHConfigSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigSidebar.swift; sourceTree = "<group>"; };
+		A00000000000000000000013 /* SSHConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigView.swift; sourceTree = "<group>"; };
+		A00000000000000000000014 /* SSHKeyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyDetailView.swift; sourceTree = "<group>"; };
+		A00000000000000000000015 /* SSHKeyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyList.swift; sourceTree = "<group>"; };
+		A00000000000000000000016 /* SSHKeyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyRow.swift; sourceTree = "<group>"; };
+		A00000000000000000000017 /* SSHKeysSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeysSidebar.swift; sourceTree = "<group>"; };
+		A00000000000000000000018 /* SSHKeysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeysView.swift; sourceTree = "<group>"; };
+		A00000000000000000000019 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A0000000000000000000001A /* SSHKeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyStore.swift; sourceTree = "<group>"; };
+		A0000000000000000000001B /* SSHKeyFileActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyFileActions.swift; sourceTree = "<group>"; };
+		A0000000000000000000001C /* SSHKeyListKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyListKind.swift; sourceTree = "<group>"; };
+		A0000000000000000000001D /* SSHKeySortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeySortOrder.swift; sourceTree = "<group>"; };
+		A0000000000000000000001E /* SSHKeyItem+Naming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SSHKeyItem+Naming.swift"; sourceTree = "<group>"; };
+		A0000000000000000000001F /* ToolbarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarIcon.swift; sourceTree = "<group>"; };
+		A00000000000000000000020 /* SSHKeyDetailContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyDetailContent.swift; sourceTree = "<group>"; };
+		A00000000000000000000021 /* SSHKeyMetadataCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyMetadataCard.swift; sourceTree = "<group>"; };
+		A00000000000000000000022 /* SSHKeyActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyActionsView.swift; sourceTree = "<group>"; };
+		A00000000000000000000023 /* SSHKeyEditSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyEditSheets.swift; sourceTree = "<group>"; };
+		A00000000000000000000024 /* SSHKeyStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyStoreTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000025 /* SSH Keys ManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SSH Keys ManagerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A00000000000000000000026 /* NotificationBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBanner.swift; sourceTree = "<group>"; };
+		A00000000000000000000027 /* AppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
+		A00000000000000000000028 /* SortOrderMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOrderMenu.swift; sourceTree = "<group>"; };
+		A00000000000000000000029 /* FormControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormControls.swift; sourceTree = "<group>"; };
+		A0000000000000000000002A /* CopyableDetailValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableDetailValue.swift; sourceTree = "<group>"; };
+		A0000000000000000000002B /* AppModelDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModelDependencies.swift; sourceTree = "<group>"; };
+		A0000000000000000000002C /* AppModel+Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppModel+Loading.swift"; sourceTree = "<group>"; };
+		A0000000000000000000002D /* AppModel+KeyOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppModel+KeyOperations.swift"; sourceTree = "<group>"; };
+		A0000000000000000000002E /* AppModel+ConfigOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppModel+ConfigOperations.swift"; sourceTree = "<group>"; };
+		A0000000000000000000002F /* SSHKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyStorage.swift; sourceTree = "<group>"; };
+		A00000000000000000000030 /* SSHConfigStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigStorage.swift; sourceTree = "<group>"; };
+		A00000000000000000000031 /* SSHConfigParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigParser.swift; sourceTree = "<group>"; };
+		A00000000000000000000032 /* SSHKeyInventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyInventory.swift; sourceTree = "<group>"; };
+		A00000000000000000000033 /* SSHKeyGenerationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyGenerationRequest.swift; sourceTree = "<group>"; };
+		A00000000000000000000034 /* SSHConfigField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigField.swift; sourceTree = "<group>"; };
+		A00000000000000000000035 /* SSHConfigHostProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigHostProperty.swift; sourceTree = "<group>"; };
+		A00000000000000000000036 /* SSHConfigHostSaveRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigHostSaveRequest.swift; sourceTree = "<group>"; };
+		A00000000000000000000037 /* SSHConfigSortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigSortOrder.swift; sourceTree = "<group>"; };
+		A00000000000000000000038 /* SSHConfigWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigWriter.swift; sourceTree = "<group>"; };
+		A00000000000000000000039 /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
+		A0000000000000000000003A /* AppModel+Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppModel+Workspace.swift"; sourceTree = "<group>"; };
+		A0000000000000000000003B /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		A0000000000000000000003C /* SSHKeysMenuBarExtra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeysMenuBarExtra.swift; sourceTree = "<group>"; };
+		A0000000000000000000003D /* AppPreferenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferenceModels.swift; sourceTree = "<group>"; };
+		A0000000000000000000003E /* SSHWorkspaceSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHWorkspaceSupport.swift; sourceTree = "<group>"; };
+		A0000000000000000000003F /* ExternalToolSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalToolSupport.swift; sourceTree = "<group>"; };
+		A00000000000000000000040 /* SSHKeyNameEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyNameEditorView.swift; sourceTree = "<group>"; };
+		A00000000000000000000041 /* SSHKeyPassphraseViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyPassphraseViews.swift; sourceTree = "<group>"; };
+		A00000000000000000000042 /* SSHKeyDeleteAndGenerateViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyDeleteAndGenerateViews.swift; sourceTree = "<group>"; };
+		A00000000000000000000043 /* SSHConfigHostEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigHostEditorView.swift; sourceTree = "<group>"; };
+		A00000000000000000000044 /* SSHConfigDeleteHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigDeleteHostView.swift; sourceTree = "<group>"; };
+		F763D5CD2F99202000B0E8E2 /* SSH Keys Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SSH Keys Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A00000000000000000003002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F763D5CA2F99202000B0E8E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A00000000000000000002001 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000001 /* ContentView.swift */,
+				A00000000000000000000002 /* SSH_Keys_ManagerApp.swift */,
+				A0000000000000000000003C /* SSHKeysMenuBarExtra.swift */,
+				A00000000000000000002003 /* Shell */,
+				A00000000000000000002008 /* State */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002002 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000002011 /* Components */,
+				A00000000000000000002012 /* Controls */,
+				A00000000000000000002013 /* Feedback */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002003 /* Shell */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000005 /* AppTab.swift */,
+				A0000000000000000000000D /* AppShellView.swift */,
+				A0000000000000000000000E /* HeaderTabsView.swift */,
+			);
+			path = Shell;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002004 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000002006 /* Keys */,
+				A00000000000000000002005 /* Config */,
+				A00000000000000000002007 /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002005 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				A0000000000000000000200A /* Domain */,
+				A0000000000000000000200B /* Presentation */,
+				A0000000000000000000200C /* Services */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002006 /* Keys */ = {
+			isa = PBXGroup;
+			children = (
+				A0000000000000000000200D /* Domain */,
+				A0000000000000000000200E /* Presentation */,
+				A0000000000000000000200F /* Services */,
+			);
+			path = Keys;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002007 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000002010 /* Presentation */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002008 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000004 /* AppModel.swift */,
+				A0000000000000000000002B /* AppModelDependencies.swift */,
+				A00000000000000000000039 /* AppPreferences.swift */,
+				A0000000000000000000003D /* AppPreferenceModels.swift */,
+				A0000000000000000000003E /* SSHWorkspaceSupport.swift */,
+				A0000000000000000000003F /* ExternalToolSupport.swift */,
+				A0000000000000000000002C /* AppModel+Loading.swift */,
+				A0000000000000000000002D /* AppModel+KeyOperations.swift */,
+				A0000000000000000000002E /* AppModel+ConfigOperations.swift */,
+				A0000000000000000000003A /* AppModel+Workspace.swift */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002009 /* SSH Keys ManagerTests */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000024 /* SSHKeyStoreTests.swift */,
+			);
+			path = "SSH Keys ManagerTests";
+			sourceTree = "<group>";
+		};
+		A0000000000000000000200A /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000007 /* SSHConfigEntry.swift */,
+				A00000000000000000000034 /* SSHConfigField.swift */,
+				A00000000000000000000035 /* SSHConfigHostProperty.swift */,
+				A00000000000000000000036 /* SSHConfigHostSaveRequest.swift */,
+				A00000000000000000000037 /* SSHConfigSortOrder.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A0000000000000000000200B /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				A0000000000000000000000F /* SSHConfigDetailView.swift */,
+				A00000000000000000000043 /* SSHConfigHostEditorView.swift */,
+				A00000000000000000000044 /* SSHConfigDeleteHostView.swift */,
+				A00000000000000000000010 /* SSHConfigEntryList.swift */,
+				A00000000000000000000011 /* SSHConfigRow.swift */,
+				A00000000000000000000012 /* SSHConfigSidebar.swift */,
+				A00000000000000000000013 /* SSHConfigView.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		A0000000000000000000200C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000031 /* SSHConfigParser.swift */,
+				A00000000000000000000030 /* SSHConfigStorage.swift */,
+				A00000000000000000000038 /* SSHConfigWriter.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A0000000000000000000200D /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000008 /* SSHKeyItem.swift */,
+				A0000000000000000000001E /* SSHKeyItem+Naming.swift */,
+				A0000000000000000000001C /* SSHKeyListKind.swift */,
+				A0000000000000000000001D /* SSHKeySortOrder.swift */,
+				A00000000000000000000032 /* SSHKeyInventory.swift */,
+				A00000000000000000000033 /* SSHKeyGenerationRequest.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A0000000000000000000200E /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000014 /* SSHKeyDetailView.swift */,
+				A00000000000000000000020 /* SSHKeyDetailContent.swift */,
+				A00000000000000000000021 /* SSHKeyMetadataCard.swift */,
+				A00000000000000000000022 /* SSHKeyActionsView.swift */,
+				A00000000000000000000023 /* SSHKeyEditSheets.swift */,
+				A00000000000000000000040 /* SSHKeyNameEditorView.swift */,
+				A00000000000000000000041 /* SSHKeyPassphraseViews.swift */,
+				A00000000000000000000042 /* SSHKeyDeleteAndGenerateViews.swift */,
+				A00000000000000000000015 /* SSHKeyList.swift */,
+				A00000000000000000000016 /* SSHKeyRow.swift */,
+				A00000000000000000000017 /* SSHKeysSidebar.swift */,
+				A00000000000000000000018 /* SSHKeysView.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		A0000000000000000000200F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A0000000000000000000001A /* SSHKeyStore.swift */,
+				A0000000000000000000002F /* SSHKeyStorage.swift */,
+				A0000000000000000000001B /* SSHKeyFileActions.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002010 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000019 /* SettingsView.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002011 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A0000000000000000000002A /* CopyableDetailValue.swift */,
+				A00000000000000000000009 /* DetailField.swift */,
+				A0000000000000000000000A /* DetailTitle.swift */,
+				A0000000000000000000000B /* InfoCard.swift */,
+				A0000000000000000000000C /* SectionHeader.swift */,
+				A0000000000000000000001F /* ToolbarIcon.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002012 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000027 /* AppButton.swift */,
+				A00000000000000000000029 /* FormControls.swift */,
+				A00000000000000000000028 /* SortOrderMenu.swift */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
+		A00000000000000000002013 /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				A0000000000000000000003B /* EmptyStateView.swift */,
+				A00000000000000000000026 /* NotificationBanner.swift */,
+			);
+			path = Feedback;
+			sourceTree = "<group>";
+		};
+		F763D5C42F99202000B0E8E2 = {
+			isa = PBXGroup;
+			children = (
+				F763D5CE2F99202000B0E8E2 /* Products */,
+				F763D5CF2F99202000B0E8E2 /* SSH Keys Manager */,
+				A00000000000000000002009 /* SSH Keys ManagerTests */,
+			);
+			sourceTree = "<group>";
+		};
+		F763D5CE2F99202000B0E8E2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F763D5CD2F99202000B0E8E2 /* SSH Keys Manager.app */,
+				A00000000000000000000025 /* SSH Keys ManagerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F763D5CF2F99202000B0E8E2 /* SSH Keys Manager */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000002001 /* App */,
+				A00000000000000000000003 /* Assets.xcassets */,
+				A00000000000000000002004 /* Features */,
+				A00000000000000000002002 /* Shared */,
+			);
+			path = "SSH Keys Manager";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A00000000000000000004001 /* SSH Keys ManagerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A00000000000000000005003 /* Build configuration list for PBXNativeTarget "SSH Keys ManagerTests" */;
+			buildPhases = (
+				A00000000000000000003001 /* Sources */,
+				A00000000000000000003002 /* Frameworks */,
+				A00000000000000000003003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A00000000000000000004003 /* PBXTargetDependency */,
+			);
+			name = "SSH Keys ManagerTests";
+			packageProductDependencies = (
+			);
+			productName = "SSH Keys ManagerTests";
+			productReference = A00000000000000000000025 /* SSH Keys ManagerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F763D5CC2F99202000B0E8E2 /* SSH Keys Manager */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F763D5D82F99202200B0E8E2 /* Build configuration list for PBXNativeTarget "SSH Keys Manager" */;
+			buildPhases = (
+				F763D5C92F99202000B0E8E2 /* Sources */,
+				F763D5CA2F99202000B0E8E2 /* Frameworks */,
+				F763D5CB2F99202000B0E8E2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SSH Keys Manager";
+			packageProductDependencies = (
+			);
+			productName = "SSH Keys Manager";
+			productReference = F763D5CD2F99202000B0E8E2 /* SSH Keys Manager.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F763D5C52F99202000B0E8E2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					A00000000000000000004001 = {
+						CreatedOnToolsVersion = 26.4;
+						TestTargetID = F763D5CC2F99202000B0E8E2;
+					};
+					F763D5CC2F99202000B0E8E2 = {
+						CreatedOnToolsVersion = 26.4;
+					};
+				};
+			};
+			buildConfigurationList = F763D5C82F99202000B0E8E2 /* Build configuration list for PBXProject "SSH Keys Manager" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F763D5C42F99202000B0E8E2;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = F763D5CE2F99202000B0E8E2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F763D5CC2F99202000B0E8E2 /* SSH Keys Manager */,
+				A00000000000000000004001 /* SSH Keys ManagerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A00000000000000000003003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F763D5CB2F99202000B0E8E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000001003 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A00000000000000000003001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000001024 /* SSHKeyStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F763D5C92F99202000B0E8E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000001002 /* SSH_Keys_ManagerApp.swift in Sources */,
+				A00000000000000000001001 /* ContentView.swift in Sources */,
+				A0000000000000000000103C /* SSHKeysMenuBarExtra.swift in Sources */,
+				A00000000000000000001004 /* AppModel.swift in Sources */,
+				A0000000000000000000102B /* AppModelDependencies.swift in Sources */,
+				A00000000000000000001039 /* AppPreferences.swift in Sources */,
+				A0000000000000000000103D /* AppPreferenceModels.swift in Sources */,
+				A0000000000000000000103E /* SSHWorkspaceSupport.swift in Sources */,
+				A0000000000000000000103F /* ExternalToolSupport.swift in Sources */,
+				A0000000000000000000102C /* AppModel+Loading.swift in Sources */,
+				A0000000000000000000102D /* AppModel+KeyOperations.swift in Sources */,
+				A0000000000000000000102E /* AppModel+ConfigOperations.swift in Sources */,
+				A0000000000000000000103A /* AppModel+Workspace.swift in Sources */,
+				A00000000000000000001005 /* AppTab.swift in Sources */,
+				A00000000000000000001007 /* SSHConfigEntry.swift in Sources */,
+				A00000000000000000001008 /* SSHKeyItem.swift in Sources */,
+				A0000000000000000000101E /* SSHKeyItem+Naming.swift in Sources */,
+				A0000000000000000000101C /* SSHKeyListKind.swift in Sources */,
+				A0000000000000000000101D /* SSHKeySortOrder.swift in Sources */,
+				A00000000000000000001032 /* SSHKeyInventory.swift in Sources */,
+				A00000000000000000001033 /* SSHKeyGenerationRequest.swift in Sources */,
+				A0000000000000000000101A /* SSHKeyStore.swift in Sources */,
+				A0000000000000000000101B /* SSHKeyFileActions.swift in Sources */,
+				A0000000000000000000102F /* SSHKeyStorage.swift in Sources */,
+				A00000000000000000001034 /* SSHConfigField.swift in Sources */,
+				A00000000000000000001035 /* SSHConfigHostProperty.swift in Sources */,
+				A00000000000000000001036 /* SSHConfigHostSaveRequest.swift in Sources */,
+				A00000000000000000001037 /* SSHConfigSortOrder.swift in Sources */,
+				A00000000000000000001030 /* SSHConfigStorage.swift in Sources */,
+				A00000000000000000001031 /* SSHConfigParser.swift in Sources */,
+				A00000000000000000001038 /* SSHConfigWriter.swift in Sources */,
+				A00000000000000000001009 /* DetailField.swift in Sources */,
+				A0000000000000000000100A /* DetailTitle.swift in Sources */,
+				A0000000000000000000100B /* InfoCard.swift in Sources */,
+				A00000000000000000001025 /* NotificationBanner.swift in Sources */,
+				A0000000000000000000103B /* EmptyStateView.swift in Sources */,
+				A00000000000000000001026 /* AppButton.swift in Sources */,
+				A0000000000000000000102A /* CopyableDetailValue.swift in Sources */,
+				A0000000000000000000100C /* SectionHeader.swift in Sources */,
+				A00000000000000000001029 /* FormControls.swift in Sources */,
+				A00000000000000000001028 /* SortOrderMenu.swift in Sources */,
+				A0000000000000000000101F /* ToolbarIcon.swift in Sources */,
+				A0000000000000000000100D /* AppShellView.swift in Sources */,
+				A0000000000000000000100E /* HeaderTabsView.swift in Sources */,
+				A0000000000000000000100F /* SSHConfigDetailView.swift in Sources */,
+				A00000000000000000001043 /* SSHConfigHostEditorView.swift in Sources */,
+				A00000000000000000001044 /* SSHConfigDeleteHostView.swift in Sources */,
+				A00000000000000000001010 /* SSHConfigEntryList.swift in Sources */,
+				A00000000000000000001011 /* SSHConfigRow.swift in Sources */,
+				A00000000000000000001012 /* SSHConfigSidebar.swift in Sources */,
+				A00000000000000000001013 /* SSHConfigView.swift in Sources */,
+				A00000000000000000001014 /* SSHKeyDetailView.swift in Sources */,
+				A00000000000000000001020 /* SSHKeyDetailContent.swift in Sources */,
+				A00000000000000000001021 /* SSHKeyMetadataCard.swift in Sources */,
+				A00000000000000000001022 /* SSHKeyActionsView.swift in Sources */,
+				A00000000000000000001023 /* SSHKeyEditSheets.swift in Sources */,
+				A00000000000000000001040 /* SSHKeyNameEditorView.swift in Sources */,
+				A00000000000000000001041 /* SSHKeyPassphraseViews.swift in Sources */,
+				A00000000000000000001042 /* SSHKeyDeleteAndGenerateViews.swift in Sources */,
+				A00000000000000000001015 /* SSHKeyList.swift in Sources */,
+				A00000000000000000001016 /* SSHKeyRow.swift in Sources */,
+				A00000000000000000001017 /* SSHKeysSidebar.swift in Sources */,
+				A00000000000000000001018 /* SSHKeysView.swift in Sources */,
+				A00000000000000000001019 /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A00000000000000000004003 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F763D5CC2F99202000B0E8E2 /* SSH Keys Manager */;
+			targetProxy = A00000000000000000004002 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A00000000000000000005001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.smidovich-yury.SSH-Keys-ManagerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SSH Keys Manager.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SSH Keys Manager";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		A00000000000000000005002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.smidovich-yury.SSH-Keys-ManagerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SSH Keys Manager.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SSH Keys Manager";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		F763D5D62F99202200B0E8E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3H23JM4W46;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F763D5D72F99202200B0E8E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 3H23JM4W46;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		F763D5D92F99202200B0E8E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.smidovich-yury.SSH-Keys-Manager";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F763D5DA2F99202200B0E8E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3H23JM4W46;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.smidovich-yury.SSH-Keys-Manager";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A00000000000000000005003 /* Build configuration list for PBXNativeTarget "SSH Keys ManagerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A00000000000000000005001 /* Debug */,
+				A00000000000000000005002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F763D5C82F99202000B0E8E2 /* Build configuration list for PBXProject "SSH Keys Manager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F763D5D62F99202200B0E8E2 /* Debug */,
+				F763D5D72F99202200B0E8E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F763D5D82F99202200B0E8E2 /* Build configuration list for PBXNativeTarget "SSH Keys Manager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F763D5D92F99202200B0E8E2 /* Debug */,
+				F763D5DA2F99202200B0E8E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F763D5C52F99202000B0E8E2 /* Project object */;
+}
