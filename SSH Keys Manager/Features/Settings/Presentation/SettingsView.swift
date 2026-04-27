@@ -10,20 +10,23 @@ struct SettingsView: View {
     @Bindable var model: AppModel
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            ReadOnlyModeCard(model: model)
-            MinimizeToMenuBarCard(model: model)
-            SSHConfigFormattingCard(model: model)
-            SSHConfigBackupsCard(model: model)
-            SSHDirectoryCard(model: model)
-            ExternalToolsCard(model: model)
-            Spacer(minLength: 0)
-            HStack {
-                Spacer()
-                SettingsFooterAttribution()
+        ScrollView {
+            VStack(alignment: .leading, spacing: 18) {
+                ReadOnlyModeCard(model: model)
+                MinimizeToMenuBarCard(model: model)
+                SSHConfigFormattingCard(model: model)
+                SSHConfigBackupsCard(model: model)
+                SSHDirectoryCard(model: model)
+                ExternalToolsCard(model: model)
+                HStack {
+                    Spacer()
+                    SettingsFooterAttribution()
+                }
             }
+            .frame(maxWidth: .infinity, alignment: .topLeading)
+            .padding(28)
         }
-        .padding(28)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .onAppear {
             model.workspaceCoordinator.refreshSSHKeygenStatus()
         }

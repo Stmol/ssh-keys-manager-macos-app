@@ -18,6 +18,7 @@ struct SSH_Keys_ManagerApp: App {
                     appDelegate.configureStatusItem(model: model)
                 }
         }
+        .defaultSize(width: 960, height: 660)
     }
 }
 

@@ -18,6 +18,7 @@ struct HeaderTabsView: View {
         .padding(.horizontal, 20)
         .padding(.vertical, 12)
         .background(.bar)
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
 

@@ -6,8 +6,10 @@ struct AppShellView: View {
     var body: some View {
         VStack(spacing: 0) {
             HeaderTabsView(model: model)
+                .layoutPriority(1)
             Divider()
             SelectedTabContentView(model: model)
+                .frame(minHeight: 0)
         }
         .background(.background)
         .notificationOverlay($model.notification)
