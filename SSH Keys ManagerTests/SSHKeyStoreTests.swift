@@ -1889,9 +1889,24 @@ final class SSHKeyStoreTests: XCTestCase {
         XCTAssertEqual(try String(contentsOf: configURL, encoding: .utf8), originalConfig)
     }
 
+    func testExternalToolValidatorReportsRealSSHKeygenAvailableWhenPresent() throws {
+        let sshKeygenPath = "/usr/bin/ssh-keygen"
+        try XCTSkipIf(
+            !fileManager.isExecutableFile(atPath: sshKeygenPath),
+            "\(sshKeygenPath) is not available on this system"
+        )
+
+        let status = ExternalToolValidator(fileManager: fileManager).status(
+            for: .sshKeygen,
+            path: sshKeygenPath
+        )
+
+        assertExternalToolStatus(status, is: .available, path: sshKeygenPath)
+    }
+
     func testExternalToolValidatorReportsAvailableExecutable() throws {
         let directory = try makeTemporaryDirectory()
-        let executableURL = try writeNoopScript(named: "ssh-keygen", in: directory, permissions: 0o755)
+        let executableURL = try writeValidSSHKeygenScript(named: "ssh-keygen", in: directory, permissions: 0o755)
 
         let status = ExternalToolValidator(fileManager: fileManager).status(
             for: .sshKeygen,
@@ -1952,10 +1967,38 @@ final class SSHKeyStoreTests: XCTestCase {
         assertExternalToolStatus(status, is: .invalidBinary, path: executableURL.path)
     }
 
+    func testExternalToolValidatorRejectsUsageOnlySpoof() throws {
+        let directory = try makeTemporaryDirectory()
+        let executableURL = try writeEchoScript(
+            named: "usage-only-ssh-keygen",
+            in: directory,
+            output: "usage: ssh-keygen ..."
+        )
+
+        let status = ExternalToolValidator(fileManager: fileManager).status(
+            for: .sshKeygen,
+            path: executableURL.path
+        )
+
+        assertExternalToolStatus(status, is: .invalidBinary, path: executableURL.path)
+    }
+
+    func testExternalToolValidatorRejectsHelpOnlySpoofWhenFunctionalProbeFails() throws {
+        let directory = try makeTemporaryDirectory()
+        let executableURL = try writeHelpOnlySSHKeygenScript(named: "help-only-ssh-keygen", in: directory)
+
+        let status = ExternalToolValidator(fileManager: fileManager).status(
+            for: .sshKeygen,
+            path: executableURL.path
+        )
+
+        assertExternalToolStatus(status, is: .invalidBinary, path: executableURL.path)
+    }
+
     @MainActor
     func testSetSSHKeygenPathPersistsStatusAndUpdatesKeyStorage() async throws {
         let directory = try makeTemporaryDirectory()
-        let executableURL = try writeNoopScript(named: "custom-ssh-keygen", in: directory, permissions: 0o755)
+        let executableURL = try writeValidSSHKeygenScript(named: "custom-ssh-keygen", in: directory, permissions: 0o755)
         let suiteName = "SSHKeyStoreTests-\(UUID().uuidString)"
         let userDefaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
         defer {
@@ -2024,7 +2067,7 @@ final class SSHKeyStoreTests: XCTestCase {
     @MainActor
     func testResetSSHKeygenPathRestoresDefaultAndUpdatesKeyStorage() async throws {
         let directory = try makeTemporaryDirectory()
-        let executableURL = try writeNoopScript(named: "custom-ssh-keygen", in: directory, permissions: 0o755)
+        let executableURL = try writeValidSSHKeygenScript(named: "custom-ssh-keygen", in: directory, permissions: 0o755)
         let suiteName = "SSHKeyStoreTests-\(UUID().uuidString)"
         let userDefaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
         defer {
@@ -2481,13 +2524,89 @@ final class SSHKeyStoreTests: XCTestCase {
         return scriptURL
     }
 
+    private func writeValidSSHKeygenScript(named name: String, in directory: URL, permissions: Int) throws -> URL {
+        let scriptURL = directory.appendingPathComponent(name)
+        try """
+        #!/bin/sh
+        if [ "$1" = "-?" ]; then
+            cat >&2 <<'EOF'
+        usage: ssh-keygen [-q] [-a rounds] [-b bits] [-C comment] [-f output_keyfile]
+                          [-m format] [-N new_passphrase] [-O option]
+                          [-t ecdsa | ecdsa-sk | ed25519 | ed25519-sk | rsa]
+               ssh-keygen -p [-a rounds] [-f keyfile] [-m format] [-N new_passphrase]
+               ssh-keygen -y [-f input_keyfile]
+               ssh-keygen -l [-v] [-f input_keyfile]
+               ssh-keygen -B [-f input_keyfile]
+               ssh-keygen -F hostname [-lv] [-f known_hosts_file]
+               ssh-keygen -R hostname [-f known_hosts_file]
+               ssh-keygen -Y sign -f key_file -n namespace file
+        EOF
+            exit 1
+        fi
+        if [ "$1" = "-l" ] && [ "$2" = "-f" ] && [ "$3" = "/dev/null" ]; then
+            echo '/dev/null is not a public key file.' >&2
+            exit 255
+        fi
+        exit 0
+        """.write(to: scriptURL, atomically: true, encoding: .utf8)
+        try fileManager.setAttributes(
+            [.posixPermissions: NSNumber(value: permissions)],
+            ofItemAtPath: scriptURL.path
+        )
+        return scriptURL
+    }
+
+    private func writeHelpOnlySSHKeygenScript(named name: String, in directory: URL) throws -> URL {
+        let scriptURL = directory.appendingPathComponent(name)
+        try """
+        #!/bin/sh
+        if [ "$1" = "-?" ]; then
+            cat >&2 <<'EOF'
+        usage: ssh-keygen [-q] [-a rounds] [-b bits] [-C comment] [-f output_keyfile]
+                          [-m format] [-N new_passphrase] [-O option]
+                          [-t ecdsa | ecdsa-sk | ed25519 | ed25519-sk | rsa]
+               ssh-keygen -p [-a rounds] [-f keyfile] [-m format] [-N new_passphrase]
+               ssh-keygen -y [-f input_keyfile]
+               ssh-keygen -l [-v] [-f input_keyfile]
+               ssh-keygen -B [-f input_keyfile]
+               ssh-keygen -F hostname [-lv] [-f known_hosts_file]
+               ssh-keygen -R hostname [-f known_hosts_file]
+               ssh-keygen -Y sign -f key_file -n namespace file
+        EOF
+            exit 1
+        fi
+        echo 'unexpected probe' >&2
+        exit 0
+        """.write(to: scriptURL, atomically: true, encoding: .utf8)
+        try fileManager.setAttributes(
+            [.posixPermissions: NSNumber(value: 0o755)],
+            ofItemAtPath: scriptURL.path
+        )
+        return scriptURL
+    }
+
     private func writeFailingSSHKeygenScript(in directory: URL) throws -> URL {
         let scriptURL = directory.appendingPathComponent("failing-ssh-keygen")
         try """
         #!/bin/sh
         if [ "$1" = "-?" ]; then
-            echo 'usage: ssh-keygen [-q] [-t ed25519]' >&2
+            cat >&2 <<'EOF'
+        usage: ssh-keygen [-q] [-a rounds] [-b bits] [-C comment] [-f output_keyfile]
+                          [-m format] [-N new_passphrase] [-O option]
+                          [-t ecdsa | ecdsa-sk | ed25519 | ed25519-sk | rsa]
+               ssh-keygen -p [-a rounds] [-f keyfile] [-m format] [-N new_passphrase]
+               ssh-keygen -y [-f input_keyfile]
+               ssh-keygen -l [-v] [-f input_keyfile]
+               ssh-keygen -B [-f input_keyfile]
+               ssh-keygen -F hostname [-lv] [-f known_hosts_file]
+               ssh-keygen -R hostname [-f known_hosts_file]
+               ssh-keygen -Y sign -f key_file -n namespace file
+        EOF
             exit 1
+        fi
+        if [ "$1" = "-l" ] && [ "$2" = "-f" ] && [ "$3" = "/dev/null" ]; then
+            echo '/dev/null is not a public key file.' >&2
+            exit 255
         fi
         while [ "$#" -gt 0 ]; do
             if [ "$1" = "-f" ]; then
@@ -2512,8 +2631,23 @@ final class SSHKeyStoreTests: XCTestCase {
         try """
         #!/bin/sh
         if [ "$1" = "-?" ]; then
-            echo 'usage: ssh-keygen [-q] [-t ed25519]' >&2
+            cat >&2 <<'EOF'
+        usage: ssh-keygen [-q] [-a rounds] [-b bits] [-C comment] [-f output_keyfile]
+                          [-m format] [-N new_passphrase] [-O option]
+                          [-t ecdsa | ecdsa-sk | ed25519 | ed25519-sk | rsa]
+               ssh-keygen -p [-a rounds] [-f keyfile] [-m format] [-N new_passphrase]
+               ssh-keygen -y [-f input_keyfile]
+               ssh-keygen -l [-v] [-f input_keyfile]
+               ssh-keygen -B [-f input_keyfile]
+               ssh-keygen -F hostname [-lv] [-f known_hosts_file]
+               ssh-keygen -R hostname [-f known_hosts_file]
+               ssh-keygen -Y sign -f key_file -n namespace file
+        EOF
             exit 1
+        fi
+        if [ "$1" = "-l" ] && [ "$2" = "-f" ] && [ "$3" = "/dev/null" ]; then
+            echo '/dev/null is not a public key file.' >&2
+            exit 255
         fi
         printf '%s\\n' "$@" > '\(argumentsURL.path)'
         IFS= read -r old_passphrase || old_passphrase=''
@@ -2534,8 +2668,23 @@ final class SSHKeyStoreTests: XCTestCase {
         try """
         #!/bin/sh
         if [ "$1" = "-?" ]; then
-            echo 'usage: ssh-keygen [-q] [-t ed25519]' >&2
+            cat >&2 <<'EOF'
+        usage: ssh-keygen [-q] [-a rounds] [-b bits] [-C comment] [-f output_keyfile]
+                          [-m format] [-N new_passphrase] [-O option]
+                          [-t ecdsa | ecdsa-sk | ed25519 | ed25519-sk | rsa]
+               ssh-keygen -p [-a rounds] [-f keyfile] [-m format] [-N new_passphrase]
+               ssh-keygen -y [-f input_keyfile]
+               ssh-keygen -l [-v] [-f input_keyfile]
+               ssh-keygen -B [-f input_keyfile]
+               ssh-keygen -F hostname [-lv] [-f known_hosts_file]
+               ssh-keygen -R hostname [-f known_hosts_file]
+               ssh-keygen -Y sign -f key_file -n namespace file
+        EOF
             exit 1
+        fi
+        if [ "$1" = "-l" ] && [ "$2" = "-f" ] && [ "$3" = "/dev/null" ]; then
+            echo '/dev/null is not a public key file.' >&2
+            exit 255
         fi
         printf '%s\\n' "$@" > '\(argumentsURL.path)'
         output_path=''

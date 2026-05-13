@@ -121,24 +121,63 @@ struct ExternalToolValidator: Sendable {
     }
 
     nonisolated private func probeSSHKeygenBinary(at path: String) -> Bool {
+        let executableURL = URL(fileURLWithPath: path)
+
         do {
-            let result = try ExternalToolProbeRunner.run(
-                executableURL: URL(fileURLWithPath: path),
+            let helpResult = try ExternalToolProbeRunner.run(
+                executableURL: executableURL,
                 arguments: ["-?"],
                 timeout: 5
             )
 
-            let output = [result.standardOutput, result.standardError]
-                .joined(separator: "\n")
-                .lowercased()
+            guard isValidSSHKeygenHelpOutput(helpResult.combinedOutput) else {
+                return false
+            }
 
-            return output.contains("usage: ssh-keygen")
-                && output.contains("ssh-keygen")
-                && output.contains("ed25519")
-                && output.contains("[-t")
+            // macOS ssh-keygen does not support the OpenSSH `-Q protocol -t ssh` probe shape.
+            let functionalResult = try ExternalToolProbeRunner.run(
+                executableURL: executableURL,
+                arguments: ["-l", "-f", "/dev/null"],
+                timeout: 5
+            )
+
+            return isValidSSHKeygenPublicKeyFailure(functionalResult)
         } catch {
             return false
         }
+    }
+
+    nonisolated private func isValidSSHKeygenHelpOutput(_ output: String) -> Bool {
+        let lowercasedOutput = output.lowercased()
+        let requiredSignatures = [
+            "usage: ssh-keygen",
+            "ed25519",
+            "ecdsa",
+            "rsa",
+            "[-t"
+        ]
+        let optionFlags = ["-f", "-N", "-p", "-y", "-l", "-B", "-F", "-R", "-Y"]
+        let matchedOptionFlagCount = optionFlags.filter { output.contains($0) }.count
+
+        return requiredSignatures.allSatisfy { lowercasedOutput.contains($0) }
+            && matchedOptionFlagCount >= 3
+    }
+
+    nonisolated private func isValidSSHKeygenPublicKeyFailure(_ result: ExternalToolProbeRunner.Result) -> Bool {
+        let output = result.combinedOutput
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased()
+
+        return result.terminationStatus != 0
+            && output.contains("/dev/null")
+            && output.contains("not a public key file")
+    }
+}
+
+private extension ExternalToolProbeRunner.Result {
+    nonisolated var combinedOutput: String {
+        [standardOutput, standardError]
+                .joined(separator: "\n")
     }
 }
 
