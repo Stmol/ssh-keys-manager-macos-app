@@ -11,6 +11,15 @@ extension AppModel {
         }
     }
 
+    var confirmPrivateKeyCopy: Bool {
+        get {
+            preferences.confirmPrivateKeyCopy
+        }
+        set {
+            preferences.setConfirmPrivateKeyCopy(newValue)
+        }
+    }
+
     func loadKeys() {
         keysCoordinator.load()
     }
@@ -82,6 +91,7 @@ extension AppModel {
 @MainActor
 final class SSHKeysCoordinator {
     private unowned let model: AppModel
+    private var isPrivateKeyCopyConfirmationSuppressed = false
 
     init(model: AppModel) {
         self.model = model
@@ -144,6 +154,10 @@ final class SSHKeysCoordinator {
     }
 
     func copyPrivateKey(for key: SSHKeyItem) async {
+        guard shouldCopyPrivateKey(named: key.name) else {
+            return
+        }
+
         do {
             let contents = try await model.keyStorage.privateKeyContents(for: key)
             let clearSeconds = model.clipboardClearSeconds
@@ -155,6 +169,31 @@ final class SSHKeysCoordinator {
         } catch {
             model.keyErrorMessage = "Unable to copy private key for \(key.name): \(error.localizedDescription)"
         }
+    }
+
+    private func shouldCopyPrivateKey(named keyName: String) -> Bool {
+        guard model.confirmPrivateKeyCopy, !isPrivateKeyCopyConfirmationSuppressed else {
+            return true
+        }
+
+        let confirmer = privateKeyCopyConfirmer()
+        guard confirmer.confirmCopy(keyName: keyName) else {
+            return false
+        }
+
+        if confirmer.suppressConfirmationUntilAppRestarts {
+            isPrivateKeyCopyConfirmationSuppressed = true
+        }
+
+        return true
+    }
+
+    private func privateKeyCopyConfirmer() -> any PrivateKeyCopyConfirming {
+        if let provider = model.preferences as? PrivateKeyCopyConfirmationProviding {
+            return provider.privateKeyCopyConfirmer
+        }
+
+        return NSAlertPrivateKeyCopyConfirmer()
     }
 
     func copySelectedFingerprint() {

@@ -14,12 +14,16 @@ struct AppModelDependencies {
         keyActions: any SSHKeyActionHandling,
         preferences: any AppPreferencesManaging = AppPreferences(),
         workspaceValidator: any SSHWorkspaceValidating = SSHWorkspaceValidator(),
-        externalToolValidator: ExternalToolValidator = ExternalToolValidator()
+        externalToolValidator: ExternalToolValidator = ExternalToolValidator(),
+        privateKeyCopyConfirmer: any PrivateKeyCopyConfirming = NSAlertPrivateKeyCopyConfirmer()
     ) {
         self.keyStorage = keyStorage
         self.configStorage = configStorage
         self.keyActions = keyActions
-        self.preferences = preferences
+        self.preferences = AppPreferencesWithPrivateKeyCopyConfirmer(
+            preferences: preferences,
+            privateKeyCopyConfirmer: privateKeyCopyConfirmer
+        )
         self.workspaceValidator = workspaceValidator
         self.externalToolValidator = externalToolValidator
     }
@@ -29,7 +33,8 @@ struct AppModelDependencies {
         configStorage: any SSHConfigStorageManaging,
         keyActions: any SSHKeyActionHandling,
         preferences: any AppPreferencesManaging = AppPreferences(),
-        workspaceValidator: any SSHWorkspaceValidating = SSHWorkspaceValidator()
+        workspaceValidator: any SSHWorkspaceValidating = SSHWorkspaceValidator(),
+        privateKeyCopyConfirmer: any PrivateKeyCopyConfirming = NSAlertPrivateKeyCopyConfirmer()
     ) {
         self.init(
             keyStorage: keyStorage,
@@ -37,7 +42,8 @@ struct AppModelDependencies {
             keyActions: keyActions,
             preferences: preferences,
             workspaceValidator: workspaceValidator,
-            externalToolValidator: ExternalToolValidator()
+            externalToolValidator: ExternalToolValidator(),
+            privateKeyCopyConfirmer: privateKeyCopyConfirmer
         )
     }
 
@@ -61,7 +67,77 @@ struct AppModelDependencies {
             keyActions: SSHKeyFileActions(),
             preferences: preferences,
             workspaceValidator: SSHWorkspaceValidator(),
-            externalToolValidator: ExternalToolValidator()
+            externalToolValidator: ExternalToolValidator(),
+            privateKeyCopyConfirmer: NSAlertPrivateKeyCopyConfirmer()
         )
+    }
+}
+
+private struct AppPreferencesWithPrivateKeyCopyConfirmer: AppPreferencesManaging, PrivateKeyCopyConfirmationProviding {
+    let preferences: any AppPreferencesManaging
+    let privateKeyCopyConfirmer: any PrivateKeyCopyConfirming
+
+    var sshDirectoryPath: String {
+        preferences.sshDirectoryPath
+    }
+
+    var sshKeygenPath: String {
+        preferences.sshKeygenPath
+    }
+
+    var hostPropertyIndentation: SSHConfigHostPropertyIndentation {
+        preferences.hostPropertyIndentation
+    }
+
+    var configBackupLimit: Int {
+        preferences.configBackupLimit
+    }
+
+    var isReadOnlyModeEnabled: Bool {
+        preferences.isReadOnlyModeEnabled
+    }
+
+    var isMinimizeToMenuBarEnabled: Bool {
+        preferences.isMinimizeToMenuBarEnabled
+    }
+
+    var clipboardClearSeconds: Int {
+        preferences.clipboardClearSeconds
+    }
+
+    var confirmPrivateKeyCopy: Bool {
+        preferences.confirmPrivateKeyCopy
+    }
+
+    func setSSHDirectoryPath(_ path: String) {
+        preferences.setSSHDirectoryPath(path)
+    }
+
+    func setSSHKeygenPath(_ path: String) {
+        preferences.setSSHKeygenPath(path)
+    }
+
+    func setHostPropertyIndentation(_ indentation: SSHConfigHostPropertyIndentation) {
+        preferences.setHostPropertyIndentation(indentation)
+    }
+
+    func setConfigBackupLimit(_ limit: Int) {
+        preferences.setConfigBackupLimit(limit)
+    }
+
+    func setReadOnlyModeEnabled(_ isEnabled: Bool) {
+        preferences.setReadOnlyModeEnabled(isEnabled)
+    }
+
+    func setMinimizeToMenuBarEnabled(_ isEnabled: Bool) {
+        preferences.setMinimizeToMenuBarEnabled(isEnabled)
+    }
+
+    func setClipboardClearSeconds(_ seconds: Int) {
+        preferences.setClipboardClearSeconds(seconds)
+    }
+
+    func setConfirmPrivateKeyCopy(_ isEnabled: Bool) {
+        preferences.setConfirmPrivateKeyCopy(isEnabled)
     }
 }

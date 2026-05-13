@@ -8,6 +8,7 @@ protocol AppPreferencesManaging {
     var isReadOnlyModeEnabled: Bool { get }
     var isMinimizeToMenuBarEnabled: Bool { get }
     var clipboardClearSeconds: Int { get }
+    var confirmPrivateKeyCopy: Bool { get }
     func setSSHDirectoryPath(_ path: String)
     func setSSHKeygenPath(_ path: String)
     func setHostPropertyIndentation(_ indentation: SSHConfigHostPropertyIndentation)
@@ -15,6 +16,7 @@ protocol AppPreferencesManaging {
     func setReadOnlyModeEnabled(_ isEnabled: Bool)
     func setMinimizeToMenuBarEnabled(_ isEnabled: Bool)
     func setClipboardClearSeconds(_ seconds: Int)
+    func setConfirmPrivateKeyCopy(_ isEnabled: Bool)
 }
 
 struct AppPreferences: AppPreferencesManaging {
@@ -29,6 +31,7 @@ struct AppPreferences: AppPreferencesManaging {
         static let isReadOnlyModeEnabled = "isReadOnlyModeEnabled"
         static let isMinimizeToMenuBarEnabled = "isMinimizeToMenuBarEnabled"
         static let clipboardClearSeconds = "clipboardClearSeconds"
+        static let confirmPrivateKeyCopy = "confirmPrivateKeyCopy"
     }
 
     private let userDefaults: UserDefaults
@@ -74,6 +77,10 @@ struct AppPreferences: AppPreferencesManaging {
         return Self.normalizedClipboardClearSeconds(storedSeconds)
     }
 
+    var confirmPrivateKeyCopy: Bool {
+        userDefaults.object(forKey: Keys.confirmPrivateKeyCopy) as? Bool ?? true
+    }
+
     func setSSHDirectoryPath(_ path: String) {
         userDefaults.set(
             SSHWorkspacePath.normalizeDirectoryPath(path),
@@ -112,6 +119,10 @@ struct AppPreferences: AppPreferencesManaging {
             Self.normalizedClipboardClearSeconds(seconds),
             forKey: Keys.clipboardClearSeconds
         )
+    }
+
+    func setConfirmPrivateKeyCopy(_ isEnabled: Bool) {
+        userDefaults.set(isEnabled, forKey: Keys.confirmPrivateKeyCopy)
     }
 
     private static func normalizedClipboardClearSeconds(_ seconds: Int) -> Int {
