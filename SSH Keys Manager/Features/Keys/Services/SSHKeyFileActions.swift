@@ -6,12 +6,14 @@ protocol SSHKeyActionHandling {
     func reveal(fileAtPath path: String)
     func openDirectory(atPath path: String)
     func copyToPasteboard(_ contents: String)
+    func copySensitiveToPasteboard(_ contents: String, clearAfter seconds: TimeInterval)
     func copyFingerprint(_ key: SSHKeyItem)
 }
 
-struct SSHKeyFileActions: SSHKeyActionHandling {
+final class SSHKeyFileActions: SSHKeyActionHandling {
     private let pasteboard: NSPasteboard
     private let workspace: NSWorkspace
+    private var pendingClear: DispatchWorkItem?
 
     init(
         pasteboard: NSPasteboard = .general,
@@ -49,6 +51,34 @@ struct SSHKeyFileActions: SSHKeyActionHandling {
     func copyToPasteboard(_ contents: String) {
         pasteboard.clearContents()
         pasteboard.setString(contents, forType: .string)
+    }
+
+    func copySensitiveToPasteboard(_ contents: String, clearAfter seconds: TimeInterval) {
+        pasteboard.clearContents()
+        pasteboard.setString(contents, forType: .string)
+        let copiedChangeCount = pasteboard.changeCount
+
+        pendingClear?.cancel()
+        pendingClear = nil
+
+        guard seconds > 0 else {
+            return
+        }
+
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self else {
+                return
+            }
+
+            if pasteboard.changeCount == copiedChangeCount {
+                pasteboard.clearContents()
+            }
+
+            pendingClear = nil
+        }
+
+        pendingClear = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: workItem)
     }
 }
 

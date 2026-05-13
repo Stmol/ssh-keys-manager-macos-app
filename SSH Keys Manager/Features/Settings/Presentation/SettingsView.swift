@@ -13,6 +13,7 @@ struct SettingsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 ReadOnlyModeCard(model: model)
+                ClipboardSafetyCard(model: model)
                 MinimizeToMenuBarCard(model: model)
                 SSHConfigFormattingCard(model: model)
                 SSHConfigBackupsCard(model: model)
@@ -183,6 +184,70 @@ private struct ReadOnlyModeContent: View {
                 .toggleStyle(.switch)
                 .labelsHidden()
                 .help("Allow viewing, copying, and creating new key files while blocking destructive file changes.")
+        }
+    }
+}
+
+private struct ClipboardSafetyCard: View {
+    @Bindable var model: AppModel
+
+    var body: some View {
+        InfoCard(padding: SettingsViewMetrics.sectionContentPadding) {
+            HStack(alignment: .top, spacing: 14) {
+                ClipboardSafetyIcon()
+                ClipboardSafetyContent(model: model)
+            }
+        }
+    }
+}
+
+private struct ClipboardSafetyIcon: View {
+    var body: some View {
+        Image(systemName: "clipboard")
+            .font(.title2)
+            .foregroundStyle(.tint)
+            .frame(width: 32)
+    }
+}
+
+private struct ClipboardSafetyContent: View {
+    @Bindable var model: AppModel
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Clipboard Safety")
+                    .font(.headline)
+                Text("Private key copies are cleared from the clipboard after this delay, unless you've already copied something else. If you quit the app before the timer fires, the clipboard will not be cleared.")
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            AppFormMenuPicker(
+                selection: $model.clipboardClearSeconds,
+                items: AppPreferences.allowedClipboardClearSeconds.map {
+                    AppFormMenuItem(title: clipboardClearTitle(for: $0), value: $0)
+                },
+                help: "Choose when private key clipboard copies are cleared"
+            )
+            .frame(width: 128, alignment: .leading)
+        }
+    }
+
+    private func clipboardClearTitle(for seconds: Int) -> String {
+        switch seconds {
+        case 0:
+            "Disabled"
+        case 30:
+            "30 seconds"
+        case 60:
+            "1 minute"
+        case 120:
+            "2 minutes"
+        case 300:
+            "5 minutes"
+        default:
+            "\(seconds) seconds"
         }
     }
 }

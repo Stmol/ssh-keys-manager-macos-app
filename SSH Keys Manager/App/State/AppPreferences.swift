@@ -7,15 +7,20 @@ protocol AppPreferencesManaging {
     var configBackupLimit: Int { get }
     var isReadOnlyModeEnabled: Bool { get }
     var isMinimizeToMenuBarEnabled: Bool { get }
+    var clipboardClearSeconds: Int { get }
     func setSSHDirectoryPath(_ path: String)
     func setSSHKeygenPath(_ path: String)
     func setHostPropertyIndentation(_ indentation: SSHConfigHostPropertyIndentation)
     func setConfigBackupLimit(_ limit: Int)
     func setReadOnlyModeEnabled(_ isEnabled: Bool)
     func setMinimizeToMenuBarEnabled(_ isEnabled: Bool)
+    func setClipboardClearSeconds(_ seconds: Int)
 }
 
 struct AppPreferences: AppPreferencesManaging {
+    static let allowedClipboardClearSeconds = [0, 30, 60, 120, 300]
+    static let defaultClipboardClearSeconds = 60
+
     private enum Keys {
         static let sshDirectoryPath = "sshDirectoryPath"
         static let sshKeygenPath = "sshKeygenPath"
@@ -23,6 +28,7 @@ struct AppPreferences: AppPreferencesManaging {
         static let configBackupLimit = "configBackupLimit"
         static let isReadOnlyModeEnabled = "isReadOnlyModeEnabled"
         static let isMinimizeToMenuBarEnabled = "isMinimizeToMenuBarEnabled"
+        static let clipboardClearSeconds = "clipboardClearSeconds"
     }
 
     private let userDefaults: UserDefaults
@@ -60,6 +66,14 @@ struct AppPreferences: AppPreferencesManaging {
         userDefaults.bool(forKey: Keys.isMinimizeToMenuBarEnabled)
     }
 
+    var clipboardClearSeconds: Int {
+        guard let storedSeconds = userDefaults.object(forKey: Keys.clipboardClearSeconds) as? Int else {
+            return Self.defaultClipboardClearSeconds
+        }
+
+        return Self.normalizedClipboardClearSeconds(storedSeconds)
+    }
+
     func setSSHDirectoryPath(_ path: String) {
         userDefaults.set(
             SSHWorkspacePath.normalizeDirectoryPath(path),
@@ -91,5 +105,16 @@ struct AppPreferences: AppPreferencesManaging {
 
     func setMinimizeToMenuBarEnabled(_ isEnabled: Bool) {
         userDefaults.set(isEnabled, forKey: Keys.isMinimizeToMenuBarEnabled)
+    }
+
+    func setClipboardClearSeconds(_ seconds: Int) {
+        userDefaults.set(
+            Self.normalizedClipboardClearSeconds(seconds),
+            forKey: Keys.clipboardClearSeconds
+        )
+    }
+
+    private static func normalizedClipboardClearSeconds(_ seconds: Int) -> Int {
+        allowedClipboardClearSeconds.contains(seconds) ? seconds : defaultClipboardClearSeconds
     }
 }

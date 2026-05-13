@@ -42,6 +42,7 @@
 		A00000000000000000001022 /* SSHKeyActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000022 /* SSHKeyActionsView.swift */; };
 		A00000000000000000001023 /* SSHKeyEditSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000023 /* SSHKeyEditSheets.swift */; };
 		A00000000000000000001024 /* SSHKeyStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000024 /* SSHKeyStoreTests.swift */; };
+		A00000000000000000001045 /* SSHKeyFileActionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000045 /* SSHKeyFileActionsTests.swift */; };
 		A00000000000000000001025 /* NotificationBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000026 /* NotificationBanner.swift */; };
 		A00000000000000000001026 /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000027 /* AppButton.swift */; };
 		A00000000000000000001028 /* SortOrderMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000028 /* SortOrderMenu.swift */; };
@@ -121,6 +122,7 @@
 		A00000000000000000000022 /* SSHKeyActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyActionsView.swift; sourceTree = "<group>"; };
 		A00000000000000000000023 /* SSHKeyEditSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyEditSheets.swift; sourceTree = "<group>"; };
 		A00000000000000000000024 /* SSHKeyStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyStoreTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000045 /* SSHKeyFileActionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyFileActionsTests.swift; sourceTree = "<group>"; };
 		A00000000000000000000025 /* SSH Keys ManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SSH Keys ManagerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000026 /* NotificationBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBanner.swift; sourceTree = "<group>"; };
 		A00000000000000000000027 /* AppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 		A00000000000000000002009 /* SSH Keys ManagerTests */ = {
 			isa = PBXGroup;
 			children = (
+				A00000000000000000000045 /* SSHKeyFileActionsTests.swift */,
 				A00000000000000000000024 /* SSHKeyStoreTests.swift */,
 			);
 			path = "SSH Keys ManagerTests";
@@ -520,6 +523,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A00000000000000000001045 /* SSHKeyFileActionsTests.swift in Sources */,
 				A00000000000000000001024 /* SSHKeyStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

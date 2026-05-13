@@ -2,6 +2,15 @@ import Foundation
 
 @MainActor
 extension AppModel {
+    var clipboardClearSeconds: Int {
+        get {
+            preferences.clipboardClearSeconds
+        }
+        set {
+            preferences.setClipboardClearSeconds(newValue)
+        }
+    }
+
     func loadKeys() {
         keysCoordinator.load()
     }
@@ -137,8 +146,12 @@ final class SSHKeysCoordinator {
     func copyPrivateKey(for key: SSHKeyItem) async {
         do {
             let contents = try await model.keyStorage.privateKeyContents(for: key)
-            model.keyActions.copyToPasteboard(contents)
-            model.showNotification("Private key was copied to the clipboard", kind: .success)
+            let clearSeconds = model.clipboardClearSeconds
+            model.keyActions.copySensitiveToPasteboard(
+                contents,
+                clearAfter: TimeInterval(clearSeconds)
+            )
+            model.showNotification(privateKeyCopyNotification(clearSeconds: clearSeconds), kind: .success)
         } catch {
             model.keyErrorMessage = "Unable to copy private key for \(key.name): \(error.localizedDescription)"
         }
@@ -151,6 +164,14 @@ final class SSHKeysCoordinator {
 
         model.keyActions.copyFingerprint(selectedKey)
         model.showNotification("Fingerprint was copied to the clipboard", kind: .success)
+    }
+
+    private func privateKeyCopyNotification(clearSeconds: Int) -> String {
+        guard clearSeconds > 0 else {
+            return "Private key was copied to the clipboard"
+        }
+
+        return "Private key copied - clearing in \(clearSeconds)s"
     }
 
     func deleteSelectedKey() async throws {
