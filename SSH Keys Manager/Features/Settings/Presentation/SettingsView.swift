@@ -214,23 +214,9 @@ private struct ClipboardSafetyContent: View {
     @Bindable var model: AppModel
 
     var body: some View {
-        HStack(alignment: .center, spacing: 16) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Clipboard Safety")
-                    .font(.headline)
-                Text("Private key copies are cleared from the clipboard after this delay, unless you've already copied something else. If you quit the app before the timer fires, the clipboard will not be cleared.")
-                    .foregroundStyle(.secondary)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            AppFormMenuPicker(
-                selection: $model.clipboardClearSeconds,
-                items: AppPreferences.allowedClipboardClearSeconds.map {
-                    AppFormMenuItem(title: clipboardClearTitle(for: $0), value: $0)
-                },
-                help: "Choose when private key clipboard copies are cleared"
-            )
-            .frame(width: 128, alignment: .leading)
+        VStack(alignment: .leading, spacing: SettingsViewMetrics.sectionInnerSpacing) {
+            ClipboardClearDelayRow(model: model, clipboardClearTitle: clipboardClearTitle)
+            PrivateKeyCopyConfirmationRow(model: model)
         }
     }
 
@@ -248,6 +234,53 @@ private struct ClipboardSafetyContent: View {
             "5 minutes"
         default:
             "\(seconds) seconds"
+        }
+    }
+}
+
+private struct ClipboardClearDelayRow: View {
+    @Bindable var model: AppModel
+    let clipboardClearTitle: (Int) -> String
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Clipboard Safety")
+                    .font(.headline)
+                Text("Private key copies are cleared from the clipboard after this delay, unless you've already copied something else. If you quit the app before the timer fires, the clipboard will not be cleared.")
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            AppFormMenuPicker(
+                selection: $model.clipboardClearSeconds,
+                items: AppPreferences.allowedClipboardClearSeconds.map {
+                    AppFormMenuItem(title: clipboardClearTitle($0), value: $0)
+                },
+                help: "Choose when private key clipboard copies are cleared"
+            )
+            .frame(width: 128, alignment: .leading)
+        }
+    }
+}
+
+private struct PrivateKeyCopyConfirmationRow: View {
+    @Bindable var model: AppModel
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Confirm before copying private keys")
+                    .font(.headline)
+                Text("Show a confirmation dialog before placing a private key in the clipboard.")
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Toggle("", isOn: $model.confirmPrivateKeyCopy)
+                .toggleStyle(.switch)
+                .labelsHidden()
+                .help("Show a confirmation dialog before placing a private key in the clipboard.")
         }
     }
 }

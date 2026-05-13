@@ -74,6 +74,8 @@
 		A00000000000000000001042 /* SSHKeyDeleteAndGenerateViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000042 /* SSHKeyDeleteAndGenerateViews.swift */; };
 		A00000000000000000001043 /* SSHConfigHostEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000043 /* SSHConfigHostEditorView.swift */; };
 		A00000000000000000001044 /* SSHConfigDeleteHostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000044 /* SSHConfigDeleteHostView.swift */; };
+		A00000000000000000001047 /* PrivateKeyCopyConfirming.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000047 /* PrivateKeyCopyConfirming.swift */; };
+		A00000000000000000001046 /* PrivateKeyCopyConfirmationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000046 /* PrivateKeyCopyConfirmationTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +157,8 @@
 		A00000000000000000000042 /* SSHKeyDeleteAndGenerateViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyDeleteAndGenerateViews.swift; sourceTree = "<group>"; };
 		A00000000000000000000043 /* SSHConfigHostEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigHostEditorView.swift; sourceTree = "<group>"; };
 		A00000000000000000000044 /* SSHConfigDeleteHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigDeleteHostView.swift; sourceTree = "<group>"; };
+		A00000000000000000000047 /* PrivateKeyCopyConfirming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeyCopyConfirming.swift; sourceTree = "<group>"; };
+		A00000000000000000000046 /* PrivateKeyCopyConfirmationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeyCopyConfirmationTests.swift; sourceTree = "<group>"; };
 		F763D5CD2F99202000B0E8E2 /* SSH Keys Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SSH Keys Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -267,6 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				A00000000000000000000045 /* SSHKeyFileActionsTests.swift */,
+				A00000000000000000000046 /* PrivateKeyCopyConfirmationTests.swift */,
 				A00000000000000000000024 /* SSHKeyStoreTests.swift */,
 			);
 			path = "SSH Keys ManagerTests";
@@ -343,6 +348,7 @@
 		A0000000000000000000200F /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A00000000000000000000047 /* PrivateKeyCopyConfirming.swift */,
 				A0000000000000000000001A /* SSHKeyStore.swift */,
 				A0000000000000000000002F /* SSHKeyStorage.swift */,
 				A0000000000000000000001B /* SSHKeyFileActions.swift */,
@@ -524,6 +530,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A00000000000000000001045 /* SSHKeyFileActionsTests.swift in Sources */,
+				A00000000000000000001046 /* PrivateKeyCopyConfirmationTests.swift in Sources */,
 				A00000000000000000001024 /* SSHKeyStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -553,6 +560,7 @@
 				A0000000000000000000101D /* SSHKeySortOrder.swift in Sources */,
 				A00000000000000000001032 /* SSHKeyInventory.swift in Sources */,
 				A00000000000000000001033 /* SSHKeyGenerationRequest.swift in Sources */,
+				A00000000000000000001047 /* PrivateKeyCopyConfirming.swift in Sources */,
 				A0000000000000000000101A /* SSHKeyStore.swift in Sources */,
 				A0000000000000000000101B /* SSHKeyFileActions.swift in Sources */,
 				A0000000000000000000102F /* SSHKeyStorage.swift in Sources */,
