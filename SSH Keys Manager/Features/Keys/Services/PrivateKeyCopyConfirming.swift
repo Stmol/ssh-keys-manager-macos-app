@@ -24,6 +24,12 @@ final class NSAlertPrivateKeyCopyConfirmer: PrivateKeyCopyConfirming {
     func confirmCopy(keyName: String) -> Bool {
         suppressConfirmationUntilAppRestarts = false
 
+        let wasAccessoryPolicy = NSApp.activationPolicy() == .accessory
+        if wasAccessoryPolicy {
+            NSApp.setActivationPolicy(.regular)
+            NSApp.activate(ignoringOtherApps: true)
+        }
+
         let alert = NSAlert()
         alert.messageText = "Copy private key to clipboard?"
         alert.informativeText = "\(keyName) will be placed in the system clipboard. Any app with clipboard access can read it."
@@ -35,6 +41,12 @@ final class NSAlertPrivateKeyCopyConfirmer: PrivateKeyCopyConfirming {
 
         let didConfirm = alert.runModal() == .alertFirstButtonReturn
         suppressConfirmationUntilAppRestarts = didConfirm && alert.suppressionButton?.state == .on
+
+        if wasAccessoryPolicy {
+            NSApp.hide(nil)
+            NSApp.setActivationPolicy(.accessory)
+        }
+
         return didConfirm
     }
 }
