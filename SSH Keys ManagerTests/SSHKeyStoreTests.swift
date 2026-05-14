@@ -79,6 +79,121 @@ final class SSHKeyStoreTests: XCTestCase {
         XCTAssertTrue(key.isPassphraseProtected)
     }
 
+    func testFuzzyMatchReturnsTrueForExactMatch() {
+        XCTAssertTrue(SSHKeyItem.fuzzyMatch(query: "id_ed25519", in: "id_ed25519"))
+    }
+
+    func testFuzzyMatchReturnsTrueForSubsequenceMatch() {
+        XCTAssertTrue(SSHKeyItem.fuzzyMatch(query: "id25519", in: "id_ed25519"))
+    }
+
+    func testFuzzyMatchReturnsFalseForWrongOrder() {
+        XCTAssertFalse(SSHKeyItem.fuzzyMatch(query: "eeid", in: "id_ed25519"))
+    }
+
+    func testFuzzyMatchIsCaseInsensitive() {
+        XCTAssertTrue(SSHKeyItem.fuzzyMatch(query: "ID_ED25519", in: "id_ed25519"))
+        XCTAssertTrue(SSHKeyItem.fuzzyMatch(query: "id_ed25519", in: "ID_ED25519"))
+    }
+
+    func testFuzzyMatchReturnsTrueForEmptyQuery() {
+        XCTAssertTrue(SSHKeyItem.fuzzyMatch(query: "", in: "id_ed25519"))
+    }
+
+    func testFuzzyMatchReturnsFalseForNonMatchingQuery() {
+        XCTAssertFalse(SSHKeyItem.fuzzyMatch(query: "xyz", in: "id_ed25519"))
+    }
+
+    func testFuzzyMatchesExtraCharactersInTextAreIgnored() {
+        XCTAssertTrue(SSHKeyItem.fuzzyMatch(query: "abc", in: "aXbYc"))
+    }
+
+    @MainActor
+    func testDisplayedKeysIsFilteredBySearchText() throws {
+        let key1 = makeKeyItem(name: "id_ed25519")
+        let key2 = makeKeyItem(name: "id_rsa")
+        let key3 = makeKeyItem(name: "deploy_key")
+        let model = AppModel(
+            keys: [key1, key2, key3],
+            dependencies: AppModelDependencies(
+                keyStorage: RecordingSSHKeyStorage(),
+                configStorage: RecordingSSHConfigStorage(),
+                keyActions: SSHKeyFileActions()
+            )
+        )
+
+        model.searchText = "id"
+        let names = model.displayedKeys.map(\.name)
+        XCTAssertEqual(Set(names), ["id_ed25519", "id_rsa"])
+    }
+
+    @MainActor
+    func testDisplayedKeysReturnsAllKeysWhenSearchTextIsEmpty() throws {
+        let key1 = makeKeyItem(name: "id_ed25519")
+        let key2 = makeKeyItem(name: "id_rsa")
+        let model = AppModel(
+            keys: [key1, key2],
+            dependencies: AppModelDependencies(
+                keyStorage: RecordingSSHKeyStorage(),
+                configStorage: RecordingSSHConfigStorage(),
+                keyActions: SSHKeyFileActions()
+            )
+        )
+
+        model.searchText = ""
+        XCTAssertEqual(Set(model.displayedKeys.map(\.name)), ["id_ed25519", "id_rsa"])
+    }
+
+    @MainActor
+    func testDisplayedKeysFiltersOtherKeysBySearchText() throws {
+        let key1 = makeKeyItem(name: "github_deploy", kind: .privateKey)
+        let key2 = makeKeyItem(name: "legacy_rsa", kind: .publicKey)
+        let dependencies = AppModelDependencies(
+            keyStorage: RecordingSSHKeyStorage(),
+            configStorage: RecordingSSHConfigStorage(),
+            keyActions: SSHKeyFileActions()
+        )
+        let model = AppModel(dependencies: dependencies)
+        model.otherKeys = [key1, key2]
+        model.selectedKeyList = .otherKeys
+
+        model.searchText = "legacy"
+        XCTAssertEqual(model.displayedKeys.map(\.name), ["legacy_rsa"])
+    }
+
+    @MainActor
+    func testDisplayedKeysDoesNotFilterByComment() throws {
+        let key1 = SSHKeyItem(
+            id: "/tmp/key_a",
+            name: "key_a",
+            publicKeyPath: nil,
+            privateKeyPath: "/tmp/key_a",
+            filePath: "/tmp/key_a",
+            kind: .privateKey,
+            type: "ED25519",
+            fingerprint: "SHA256:a",
+            comment: "secret_comment",
+            createdAt: .now,
+            isPassphraseProtected: false
+        )
+        let dependencies = AppModelDependencies(
+            keyStorage: RecordingSSHKeyStorage(),
+            configStorage: RecordingSSHConfigStorage(),
+            keyActions: SSHKeyFileActions()
+        )
+        let model = AppModel(dependencies: dependencies)
+        model.otherKeys = [key1]
+        model.selectedKeyList = .otherKeys
+
+        model.searchText = "secret_comment"
+        XCTAssertTrue(model.displayedKeys.isEmpty)
+    }
+
+    func testFuzzyMatchRespectsCharacterOrderAcrossRepeatedCharacters() {
+        XCTAssertTrue(SSHKeyItem.fuzzyMatch(query: "aba", in: "abba"))
+        XCTAssertFalse(SSHKeyItem.fuzzyMatch(query: "aba", in: "ba"))
+    }
+
     func testUpdateCommentRewritesPublicKeyCommentAndNormalizesWhitespace() throws {
         let directory = try makeTemporaryDirectory()
         let publicURL = directory.appendingPathComponent("id_ed25519.pub")

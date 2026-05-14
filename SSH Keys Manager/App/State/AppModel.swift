@@ -52,6 +52,7 @@ final class AppModel {
             }
         }
     }
+    var searchText = ""
     var keySortOrder: SSHKeySortOrder = .createdDescending {
         didSet {
             keys = sortedKeys(keys)
@@ -133,12 +134,19 @@ final class AppModel {
     }
 
     var displayedKeys: [SSHKeyItem] {
+        let sourceKeys: [SSHKeyItem]
         switch selectedKeyList {
         case .completePairs:
-            return keys
+            sourceKeys = keys
         case .otherKeys:
-            return otherKeys
+            sourceKeys = otherKeys
         }
+
+        if searchText.isEmpty {
+            return sourceKeys
+        }
+
+        return sourceKeys.filter { SSHKeyItem.fuzzyMatch(query: searchText, in: $0.name) }
     }
 
     var selectedConfigEntry: SSHConfigEntry? {

@@ -12,6 +12,21 @@ struct SSHKeyItem: Identifiable, Hashable {
     let comment: String
     let createdAt: Date
     let isPassphraseProtected: Bool
+
+    static func fuzzyMatch(query: String, in text: String) -> Bool {
+        guard !query.isEmpty else { return true }
+        let queryChars = query.lowercased()
+        let textChars = text.lowercased()
+        var qi = queryChars.startIndex
+        var ti = textChars.startIndex
+        while qi < queryChars.endIndex, ti < textChars.endIndex {
+            if queryChars[qi] == textChars[ti] {
+                qi = textChars.index(after: qi)
+            }
+            ti = textChars.index(after: ti)
+        }
+        return qi == queryChars.endIndex
+    }
 }
 
 enum SSHKeyKind: String, Hashable {

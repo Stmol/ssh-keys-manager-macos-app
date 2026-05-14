@@ -27,7 +27,8 @@ struct SSHKeysView: View {
                 },
                 selectedList: $model.selectedKeyList,
                 sortOrder: $model.keySortOrder,
-                selectedKeyID: $model.selectedKeyID
+                selectedKeyID: $model.selectedKeyID,
+                searchText: $model.searchText
             )
 
             Divider()
