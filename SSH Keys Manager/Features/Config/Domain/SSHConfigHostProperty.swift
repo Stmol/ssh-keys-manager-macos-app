@@ -148,6 +148,15 @@ struct SSHConfigHostPropertyDefinition: Identifiable, Hashable, Sendable {
     static func isIdentityFilePropertyName(_ name: String) -> Bool {
         normalizedPropertyName(name) == "identityfile"
     }
+
+    static func supportsCopy(_ name: String) -> Bool {
+        switch normalizedPropertyName(name) {
+        case "host", "hostname", "user", "identityfile":
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 struct SSHConfigHostPropertyValue: Identifiable, Hashable, Sendable {

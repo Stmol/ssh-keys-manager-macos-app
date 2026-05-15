@@ -60,6 +60,7 @@ final class AppModel {
         }
     }
 
+    var configSearchText = ""
     var configEntries: [SSHConfigEntry]
     var configSortOrder: SSHConfigSortOrder = .original {
         didSet {
@@ -149,8 +150,16 @@ final class AppModel {
         return sourceKeys.filter { SSHKeyItem.fuzzyMatch(query: searchText, in: $0.name) }
     }
 
+    var displayedConfigEntries: [SSHConfigEntry] {
+        if configSearchText.isEmpty {
+            return configEntries
+        }
+
+        return configEntries.filter { SSHConfigEntry.fuzzyMatches(query: configSearchText, in: $0) }
+    }
+
     var selectedConfigEntry: SSHConfigEntry? {
-        configEntries.first { $0.id == selectedConfigEntryID }
+        displayedConfigEntries.first { $0.id == selectedConfigEntryID }
     }
 
     var availableIdentityFileOptions: [SSHConfigIdentityFileOption] {

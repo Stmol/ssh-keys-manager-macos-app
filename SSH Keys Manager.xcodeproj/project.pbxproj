@@ -47,6 +47,7 @@
 		A00000000000000000001026 /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000027 /* AppButton.swift */; };
 		A00000000000000000001028 /* SortOrderMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000028 /* SortOrderMenu.swift */; };
 		A00000000000000000001029 /* FormControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000029 /* FormControls.swift */; };
+		A00000000000000000001048 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000048 /* SearchField.swift */; };
 		A0000000000000000000102A /* CopyableDetailValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002A /* CopyableDetailValue.swift */; };
 		A0000000000000000000102B /* AppModelDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002B /* AppModelDependencies.swift */; };
 		A0000000000000000000102C /* AppModel+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002C /* AppModel+Loading.swift */; };
@@ -130,6 +131,7 @@
 		A00000000000000000000027 /* AppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		A00000000000000000000028 /* SortOrderMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOrderMenu.swift; sourceTree = "<group>"; };
 		A00000000000000000000029 /* FormControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormControls.swift; sourceTree = "<group>"; };
+		A00000000000000000000048 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		A0000000000000000000002A /* CopyableDetailValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableDetailValue.swift; sourceTree = "<group>"; };
 		A0000000000000000000002B /* AppModelDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModelDependencies.swift; sourceTree = "<group>"; };
 		A0000000000000000000002C /* AppModel+Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppModel+Loading.swift"; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 			isa = PBXGroup;
 			children = (
 				A00000000000000000000027 /* AppButton.swift */,
+				A00000000000000000000048 /* SearchField.swift */,
 				A00000000000000000000029 /* FormControls.swift */,
 				A00000000000000000000028 /* SortOrderMenu.swift */,
 			);
@@ -581,6 +584,7 @@
 				A0000000000000000000100C /* SectionHeader.swift in Sources */,
 				A00000000000000000001029 /* FormControls.swift in Sources */,
 				A00000000000000000001028 /* SortOrderMenu.swift in Sources */,
+				A00000000000000000001048 /* SearchField.swift in Sources */,
 				A0000000000000000000101F /* ToolbarIcon.swift in Sources */,
 				A0000000000000000000100D /* AppShellView.swift in Sources */,
 				A0000000000000000000100E /* HeaderTabsView.swift in Sources */,

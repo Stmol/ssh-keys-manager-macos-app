@@ -70,7 +70,7 @@ private struct SSHConfigFieldsSection: View {
     }
 
     private func supportsCopy(_ title: String) -> Bool {
-        SSHConfigHostPropertyDefinition.isIdentityFilePropertyName(title)
+        SSHConfigHostPropertyDefinition.supportsCopy(title)
     }
 }
 
