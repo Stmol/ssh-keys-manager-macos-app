@@ -11,12 +11,6 @@ struct SSHKeyMetadataCard: View {
     var body: some View {
         InfoCard(spacing: 10, padding: 16) {
             DetailField(
-                title: "Kind",
-                value: key.kind.title,
-                isMonospaced: true,
-                labelWidth: labelWidth
-            )
-            DetailField(
                 title: "Type",
                 value: key.type,
                 isMonospaced: true,

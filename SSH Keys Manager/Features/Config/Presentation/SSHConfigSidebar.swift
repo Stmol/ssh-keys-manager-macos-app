@@ -12,6 +12,7 @@ struct SSHConfigSidebar: View {
     let onAddHost: () -> Void
     @Binding var sortOrder: SSHConfigSortOrder
     @Binding var selectedEntryID: SSHConfigEntry.ID?
+    @Binding var configSearchText: String
 
     var body: some View {
         AppSidebarPanel(
@@ -34,14 +35,18 @@ struct SSHConfigSidebar: View {
                 )
             },
             content: {
-                SSHConfigEntryList(
-                    entries: entries,
-                    isLoading: isLoading,
-                    errorMessage: errorMessage,
-                    isConfigFileMissing: isConfigFileMissing,
-                    selectedEntryID: $selectedEntryID
-                )
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                VStack(alignment: .leading, spacing: 10) {
+                    SearchField(text: $configSearchText, placeholder: "Search hosts...")
+
+                    SSHConfigEntryList(
+                        entries: entries,
+                        isLoading: isLoading,
+                        errorMessage: errorMessage,
+                        isConfigFileMissing: isConfigFileMissing,
+                        selectedEntryID: $selectedEntryID
+                    )
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                }
             },
             footer: {
                 SidebarPrimaryActionButton(

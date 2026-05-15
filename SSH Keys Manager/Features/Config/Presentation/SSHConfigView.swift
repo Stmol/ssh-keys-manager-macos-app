@@ -7,7 +7,7 @@ struct SSHConfigView: View {
     var body: some View {
         HStack(spacing: 0) {
             SSHConfigSidebar(
-                entries: model.configEntries,
+                entries: model.displayedConfigEntries,
                 sshDirectoryPath: model.sshDirectoryPath,
                 isLoading: model.isLoadingConfig,
                 errorMessage: model.configErrorMessage,
@@ -23,7 +23,8 @@ struct SSHConfigView: View {
                     activeSheet = .add
                 },
                 sortOrder: $model.configSortOrder,
-                selectedEntryID: $model.selectedConfigEntryID
+                selectedEntryID: $model.selectedConfigEntryID,
+                configSearchText: $model.configSearchText
             )
 
             Divider()

@@ -194,6 +194,95 @@ final class SSHKeyStoreTests: XCTestCase {
         XCTAssertFalse(SSHKeyItem.fuzzyMatch(query: "aba", in: "ba"))
     }
 
+    func testConfigFuzzyMatchByHostNameReturnsTrue() {
+        let entry = makeSearchableConfigEntry(hostName: "prod.example.com", host: "prod", identityFile: nil, user: nil)
+        XCTAssertTrue(SSHConfigEntry.fuzzyMatches(query: "example", in: entry))
+        XCTAssertTrue(SSHConfigEntry.fuzzyMatches(query: "prod", in: entry))
+    }
+
+    func testConfigFuzzyMatchByHostReturnsTrueWhenHostNameDoesNotMatch() {
+        let entry = makeSearchableConfigEntry(hostName: "10.0.0.1", host: "production", identityFile: nil, user: nil)
+        XCTAssertFalse(SSHConfigEntry.fuzzyMatches(query: "example", in: entry))
+        XCTAssertTrue(SSHConfigEntry.fuzzyMatches(query: "product", in: entry))
+    }
+
+    func testConfigFuzzyMatchByIdentityFileReturnsTrue() {
+        let entry = makeSearchableConfigEntry(hostName: "example.com", host: "web", identityFile: "~/.ssh/id_ed25519", user: nil)
+        XCTAssertTrue(SSHConfigEntry.fuzzyMatches(query: "ed25519", in: entry))
+        XCTAssertTrue(SSHConfigEntry.fuzzyMatches(query: "id_ed25519", in: entry))
+    }
+
+    func testConfigFuzzyMatchByUserReturnsTrue() {
+        let entry = makeSearchableConfigEntry(hostName: "example.com", host: "web", identityFile: nil, user: "deploy")
+        XCTAssertTrue(SSHConfigEntry.fuzzyMatches(query: "deploy", in: entry))
+        XCTAssertTrue(SSHConfigEntry.fuzzyMatches(query: "depl", in: entry))
+    }
+
+    func testConfigFuzzyMatchReturnsFalseForNonMatchingQuery() {
+        let entry = makeSearchableConfigEntry(hostName: "example.com", host: "web", identityFile: "~/.ssh/id_rsa", user: "admin")
+        XCTAssertFalse(SSHConfigEntry.fuzzyMatches(query: "xyz", in: entry))
+        XCTAssertFalse(SSHConfigEntry.fuzzyMatches(query: "prod_rsa", in: entry))
+    }
+
+    func testConfigFuzzyMatchReturnsTrueForEmptyQuery() {
+        let entry = makeSearchableConfigEntry(hostName: "example.com", host: "web", identityFile: nil, user: nil)
+        XCTAssertTrue(SSHConfigEntry.fuzzyMatches(query: "", in: entry))
+    }
+
+    @MainActor
+    func testDisplayedConfigEntriesFiltersBySearchText() throws {
+        let entry1 = makeSearchableConfigEntry(hostName: "prod.example.com", host: "production", identityFile: "~/.ssh/id_ed25519", user: "deploy")
+        let entry2 = makeSearchableConfigEntry(hostName: "staging.example.com", host: "staging", identityFile: "~/.ssh/id_rsa", user: "admin")
+        let model = AppModel(
+            configEntries: [entry1, entry2],
+            dependencies: AppModelDependencies(
+                keyStorage: RecordingSSHKeyStorage(),
+                configStorage: RecordingSSHConfigStorage(),
+                keyActions: SSHKeyFileActions()
+            )
+        )
+
+        model.configSearchText = "prod"
+        XCTAssertEqual(model.displayedConfigEntries.map(\.host), ["production"])
+    }
+
+    @MainActor
+    func testDisplayedConfigEntriesReturnsAllWhenSearchTextIsEmpty() throws {
+        let entry1 = makeSearchableConfigEntry(hostName: "prod.example.com", host: "production", identityFile: nil, user: nil)
+        let entry2 = makeSearchableConfigEntry(hostName: "staging.example.com", host: "staging", identityFile: nil, user: nil)
+        let model = AppModel(
+            configEntries: [entry1, entry2],
+            dependencies: AppModelDependencies(
+                keyStorage: RecordingSSHKeyStorage(),
+                configStorage: RecordingSSHConfigStorage(),
+                keyActions: SSHKeyFileActions()
+            )
+        )
+
+        model.configSearchText = ""
+        XCTAssertEqual(model.displayedConfigEntries.map(\.host).sorted(), ["production", "staging"])
+    }
+
+    @MainActor
+    func testSelectedConfigEntryBecomesNilWhenSearchFiltersOutSelectedHost() throws {
+        let entry1 = makeSearchableConfigEntry(hostName: "prod.example.com", host: "production", identityFile: nil, user: nil)
+        let entry2 = makeSearchableConfigEntry(hostName: "staging.example.com", host: "staging", identityFile: nil, user: nil)
+        let model = AppModel(
+            configEntries: [entry1, entry2],
+            dependencies: AppModelDependencies(
+                keyStorage: RecordingSSHKeyStorage(),
+                configStorage: RecordingSSHConfigStorage(),
+                keyActions: SSHKeyFileActions()
+            )
+        )
+
+        model.selectedConfigEntryID = entry1.id
+        XCTAssertEqual(model.selectedConfigEntry?.id, entry1.id)
+
+        model.configSearchText = "staging"
+        XCTAssertNil(model.selectedConfigEntry)
+    }
+
     func testUpdateCommentRewritesPublicKeyCommentAndNormalizesWhitespace() throws {
         let directory = try makeTemporaryDirectory()
         let publicURL = directory.appendingPathComponent("id_ed25519.pub")
@@ -1436,6 +1525,15 @@ final class SSHKeyStoreTests: XCTestCase {
         XCTAssertTrue(SSHConfigHostPropertyDefinition.isIdentityFilePropertyName("IdentityFile"))
         XCTAssertTrue(SSHConfigHostPropertyDefinition.isIdentityFilePropertyName(" identityfile "))
         XCTAssertFalse(SSHConfigHostPropertyDefinition.isIdentityFilePropertyName("CertificateFile"))
+    }
+
+    func testCopySupportMatchesExpectedSSHConfigProperties() {
+        XCTAssertTrue(SSHConfigHostPropertyDefinition.supportsCopy("Host"))
+        XCTAssertTrue(SSHConfigHostPropertyDefinition.supportsCopy(" HostName "))
+        XCTAssertTrue(SSHConfigHostPropertyDefinition.supportsCopy("user"))
+        XCTAssertTrue(SSHConfigHostPropertyDefinition.supportsCopy("IdentityFile"))
+        XCTAssertFalse(SSHConfigHostPropertyDefinition.supportsCopy("Port"))
+        XCTAssertFalse(SSHConfigHostPropertyDefinition.supportsCopy("CertificateFile"))
     }
 
     func testIdentityFilePickerMenuTitleIncludesPathForDuplicateKeyNames() {
@@ -2713,6 +2811,39 @@ final class SSHKeyStoreTests: XCTestCase {
                 SSHConfigField(id: "\(lineNumber):host", name: "Host", value: host, normalizedName: "host")
             ],
             sourceFingerprint: fingerprint
+        )
+    }
+
+    private func makeSearchableConfigEntry(
+        hostName: String,
+        host: String,
+        identityFile: String?,
+        user: String?
+    ) -> SSHConfigEntry {
+        var fields: [SSHConfigField] = [
+            SSHConfigField(id: "1:host", name: "Host", value: host, normalizedName: "host"),
+            SSHConfigField(id: "2:hostname", name: "HostName", value: hostName, normalizedName: "hostname"),
+        ]
+
+        if let identityFile {
+            fields.append(
+                SSHConfigField(id: "3:identityfile", name: "IdentityFile", value: identityFile, normalizedName: "identityfile")
+            )
+        }
+
+        var fieldIndex = 4
+        if let user {
+            fields.append(
+                SSHConfigField(id: "\(fieldIndex):user", name: "User", value: user, normalizedName: "user")
+            )
+            fieldIndex += 1
+        }
+
+        return SSHConfigEntry(
+            id: "/tmp/config:1:\(host)",
+            host: host,
+            fields: fields,
+            sourceFingerprint: host
         )
     }
 

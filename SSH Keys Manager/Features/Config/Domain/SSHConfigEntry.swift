@@ -28,4 +28,19 @@ struct SSHConfigEntry: Identifiable, Hashable {
     var user: String? {
         fields.first { $0.normalizedName == "user" }?.value
     }
+
+    static func fuzzyMatches(query: String, in entry: SSHConfigEntry) -> Bool {
+        guard !query.isEmpty else { return true }
+
+        if SSHKeyItem.fuzzyMatch(query: query, in: entry.hostName) { return true }
+        if SSHKeyItem.fuzzyMatch(query: query, in: entry.host) { return true }
+
+        for field in entry.fields where field.normalizedName == "identityfile" {
+            if SSHKeyItem.fuzzyMatch(query: query, in: field.value) { return true }
+        }
+
+        if let user = entry.user, SSHKeyItem.fuzzyMatch(query: query, in: user) { return true }
+
+        return false
+    }
 }
