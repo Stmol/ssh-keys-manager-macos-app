@@ -42,12 +42,10 @@
 		A00000000000000000001022 /* SSHKeyActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000022 /* SSHKeyActionsView.swift */; };
 		A00000000000000000001023 /* SSHKeyEditSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000023 /* SSHKeyEditSheets.swift */; };
 		A00000000000000000001024 /* SSHKeyStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000024 /* SSHKeyStoreTests.swift */; };
-		A00000000000000000001045 /* SSHKeyFileActionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000045 /* SSHKeyFileActionsTests.swift */; };
 		A00000000000000000001025 /* NotificationBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000026 /* NotificationBanner.swift */; };
 		A00000000000000000001026 /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000027 /* AppButton.swift */; };
 		A00000000000000000001028 /* SortOrderMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000028 /* SortOrderMenu.swift */; };
 		A00000000000000000001029 /* FormControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000029 /* FormControls.swift */; };
-		A00000000000000000001048 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000048 /* SearchField.swift */; };
 		A0000000000000000000102A /* CopyableDetailValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002A /* CopyableDetailValue.swift */; };
 		A0000000000000000000102B /* AppModelDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002B /* AppModelDependencies.swift */; };
 		A0000000000000000000102C /* AppModel+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002C /* AppModel+Loading.swift */; };
@@ -75,8 +73,10 @@
 		A00000000000000000001042 /* SSHKeyDeleteAndGenerateViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000042 /* SSHKeyDeleteAndGenerateViews.swift */; };
 		A00000000000000000001043 /* SSHConfigHostEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000043 /* SSHConfigHostEditorView.swift */; };
 		A00000000000000000001044 /* SSHConfigDeleteHostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000044 /* SSHConfigDeleteHostView.swift */; };
-		A00000000000000000001047 /* PrivateKeyCopyConfirming.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000047 /* PrivateKeyCopyConfirming.swift */; };
+		A00000000000000000001045 /* SSHKeyFileActionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000045 /* SSHKeyFileActionsTests.swift */; };
 		A00000000000000000001046 /* PrivateKeyCopyConfirmationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000046 /* PrivateKeyCopyConfirmationTests.swift */; };
+		A00000000000000000001047 /* PrivateKeyCopyConfirming.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000047 /* PrivateKeyCopyConfirming.swift */; };
+		A00000000000000000001048 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000048 /* SearchField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,13 +125,11 @@
 		A00000000000000000000022 /* SSHKeyActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyActionsView.swift; sourceTree = "<group>"; };
 		A00000000000000000000023 /* SSHKeyEditSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyEditSheets.swift; sourceTree = "<group>"; };
 		A00000000000000000000024 /* SSHKeyStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyStoreTests.swift; sourceTree = "<group>"; };
-		A00000000000000000000045 /* SSHKeyFileActionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyFileActionsTests.swift; sourceTree = "<group>"; };
 		A00000000000000000000025 /* SSH Keys ManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SSH Keys ManagerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000026 /* NotificationBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBanner.swift; sourceTree = "<group>"; };
 		A00000000000000000000027 /* AppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		A00000000000000000000028 /* SortOrderMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOrderMenu.swift; sourceTree = "<group>"; };
 		A00000000000000000000029 /* FormControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormControls.swift; sourceTree = "<group>"; };
-		A00000000000000000000048 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		A0000000000000000000002A /* CopyableDetailValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableDetailValue.swift; sourceTree = "<group>"; };
 		A0000000000000000000002B /* AppModelDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModelDependencies.swift; sourceTree = "<group>"; };
 		A0000000000000000000002C /* AppModel+Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppModel+Loading.swift"; sourceTree = "<group>"; };
@@ -159,8 +157,10 @@
 		A00000000000000000000042 /* SSHKeyDeleteAndGenerateViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyDeleteAndGenerateViews.swift; sourceTree = "<group>"; };
 		A00000000000000000000043 /* SSHConfigHostEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigHostEditorView.swift; sourceTree = "<group>"; };
 		A00000000000000000000044 /* SSHConfigDeleteHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConfigDeleteHostView.swift; sourceTree = "<group>"; };
-		A00000000000000000000047 /* PrivateKeyCopyConfirming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeyCopyConfirming.swift; sourceTree = "<group>"; };
+		A00000000000000000000045 /* SSHKeyFileActionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyFileActionsTests.swift; sourceTree = "<group>"; };
 		A00000000000000000000046 /* PrivateKeyCopyConfirmationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeyCopyConfirmationTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000047 /* PrivateKeyCopyConfirming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeyCopyConfirming.swift; sourceTree = "<group>"; };
+		A00000000000000000000048 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		F763D5CD2F99202000B0E8E2 /* SSH Keys Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SSH Keys Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -478,7 +478,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2640;
-				LastUpgradeCheck = 2640;
+				LastUpgradeCheck = 2650;
 				TargetAttributes = {
 					A00000000000000000004001 = {
 						CreatedOnToolsVersion = 26.4;
@@ -628,6 +628,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -650,6 +651,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -700,6 +702,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 3H23JM4W46;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -725,6 +728,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -764,6 +768,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3H23JM4W46;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -782,6 +787,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -795,6 +801,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 3;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -827,6 +834,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 3;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 3H23JM4W46;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;

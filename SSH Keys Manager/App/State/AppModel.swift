@@ -93,12 +93,13 @@ final class AppModel {
     init(
         keys: [SSHKeyItem] = [],
         configEntries: [SSHConfigEntry] = [],
-        keyStore: SSHKeyStore = SSHKeyStore(
-            sshKeygenURL: URL(fileURLWithPath: AppPreferences().sshKeygenPath)
-        ),
+        keyStore: SSHKeyStore? = nil,
         dependencies: AppModelDependencies? = nil
     ) {
-        let resolvedDependencies = dependencies ?? .live(keyStore: keyStore)
+        let resolvedKeyStore = keyStore ?? SSHKeyStore(
+            sshKeygenURL: URL(fileURLWithPath: AppPreferences().sshKeygenPath)
+        )
+        let resolvedDependencies = dependencies ?? .live(keyStore: resolvedKeyStore)
 
         self.keys = keys.sortedBy(.createdDescending)
         self.configEntries = configEntries.sortedBy(.original)
