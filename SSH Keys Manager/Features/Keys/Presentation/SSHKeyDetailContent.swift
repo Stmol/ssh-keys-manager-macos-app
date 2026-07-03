@@ -29,17 +29,7 @@ struct SSHKeyDetailContent: View {
 
                 SSHKeyMetadataCard(
                     key: key,
-                    onCopyFingerprint: onCopyFingerprint,
-                    onCopyPrivateKey: key.privateKeyPath == nil ? nil : {
-                        Task {
-                            await onCopyPrivateKey()
-                        }
-                    },
-                    onCopyPublicKey: key.publicKeyPath == nil ? nil : {
-                        Task {
-                            await onCopyPublicKey()
-                        }
-                    }
+                    onCopyFingerprint: onCopyFingerprint
                 )
 
                 SSHKeyActionsView(
