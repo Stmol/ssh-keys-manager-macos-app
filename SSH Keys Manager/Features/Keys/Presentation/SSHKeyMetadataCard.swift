@@ -5,8 +5,6 @@ struct SSHKeyMetadataCard: View {
 
     let key: SSHKeyItem
     let onCopyFingerprint: () -> Void
-    let onCopyPrivateKey: (() -> Void)?
-    let onCopyPublicKey: (() -> Void)?
 
     var body: some View {
         InfoCard(spacing: 10, padding: 16) {
@@ -37,8 +35,7 @@ struct SSHKeyMetadataCard: View {
                 isMonospaced: true,
                 truncatesValue: true,
                 labelWidth: labelWidth,
-                copyHelpText: key.privateKeyPath == nil ? nil : "Copy private key to clipboard",
-                onCopy: onCopyPrivateKey
+                copyHelpText: key.privateKeyPath == nil ? nil : "Copy private key path to clipboard"
             )
             DetailField(
                 title: "Public Key",
@@ -46,8 +43,7 @@ struct SSHKeyMetadataCard: View {
                 isMonospaced: true,
                 truncatesValue: true,
                 labelWidth: labelWidth,
-                copyHelpText: key.publicKeyPath == nil ? nil : "Copy public key to clipboard",
-                onCopy: onCopyPublicKey
+                copyHelpText: key.publicKeyPath == nil ? nil : "Copy public key path to clipboard"
             )
             DetailField(
                 title: "Created",
