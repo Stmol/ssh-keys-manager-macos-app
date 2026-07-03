@@ -1,0 +1,30 @@
+//
+//  ContentView.swift
+//  SSH Keys Manager
+//
+//  Created by Stmol on 22.04.2026.
+//
+
+import SwiftUI
+
+struct ContentView: View {
+    let model: AppModel
+
+    var body: some View {
+        AppShellView(model: model)
+            .frame(minWidth: 960, idealWidth: 960, minHeight: 660, idealHeight: 660)
+            .task {
+                await model.loadKeysIfNeeded()
+                await model.loadConfigIfNeeded()
+            }
+    }
+}
+
+#Preview {
+    ContentView(model: AppModel())
+}
+
+#Preview("Empty State") {
+    ContentView(model: AppModel(keys: [], configEntries: []))
+        .frame(width: 960, height: 620)
+}
