@@ -18,14 +18,25 @@ struct SSHKeyStore: @unchecked Sendable {
         Self(fileManager: fileManager, sshKeygenURL: sshKeygenURL)
     }
 
-    nonisolated func loadKeys(from directoryPath: String) throws -> SSHKeyInventory {
+    nonisolated func loadKeys(
+        from directoryPath: String,
+        scanOptions: SSHKeyScanOptions = .default
+    ) throws -> SSHKeyInventory {
         let directoryURL = expandedDirectoryURL(for: directoryPath)
-        let fileURLs = try fileManager.contentsOfDirectory(
-            at: directoryURL,
-            includingPropertiesForKeys: [.isRegularFileKey, .creationDateKey, .contentModificationDateKey],
-            options: [.skipsHiddenFiles]
+        let scannedFiles = try scanKeyFiles(in: directoryURL, scanOptions: scanOptions)
+        let regularFileURLs = scannedFiles.map(\.url)
+        let relativeDirectoryByFilePath = Dictionary(
+            scannedFiles.map { ($0.url.path, $0.relativeDirectory) },
+            uniquingKeysWith: { first, _ in first }
         )
-        let regularFileURLs = fileURLs.filter { isRegularFile($0) }
+        let relativeDirectory: (URL) -> String? = { url in
+            guard let relativeDirectory = relativeDirectoryByFilePath[url.path],
+                  !relativeDirectory.isEmpty else {
+                return nil
+            }
+
+            return relativeDirectory
+        }
         var pairedPublicKeyPaths = Set<String>()
         var pairedPrivateKeyPaths = Set<String>()
 
@@ -35,7 +46,11 @@ struct SSHKeyStore: @unchecked Sendable {
             }
 
             let publicKeyURL = privateKeyURL.appendingPathExtension("pub")
-            guard let item = completePairItem(privateKeyURL: privateKeyURL, publicKeyURL: publicKeyURL) else {
+            guard let item = completePairItem(
+                privateKeyURL: privateKeyURL,
+                publicKeyURL: publicKeyURL,
+                relativeDirectory: relativeDirectory(privateKeyURL)
+            ) else {
                 return nil
             }
 
@@ -49,7 +64,7 @@ struct SSHKeyStore: @unchecked Sendable {
                 return nil
             }
 
-            return standaloneKeyItem(for: fileURL)
+            return standaloneKeyItem(for: fileURL, relativeDirectory: relativeDirectory(fileURL))
         }
 
         return SSHKeyInventory(completePairs: completePairs, otherKeys: otherKeys)
@@ -241,6 +256,20 @@ struct SSHKeyStore: @unchecked Sendable {
                 .filter { isRegularFile($0) }
                 .map(\.lastPathComponent)
         )
+    }
+
+    nonisolated func subfolderNames(in directoryPath: String) throws -> [String] {
+        let directoryURL = expandedDirectoryURL(for: directoryPath)
+        let contents = try fileManager.contentsOfDirectory(
+            at: directoryURL,
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [.skipsHiddenFiles]
+        )
+
+        return contents
+            .filter { isDirectory($0) }
+            .map(\.lastPathComponent)
+            .sorted { $0.localizedCaseInsensitiveCompare($1) == .orderedAscending }
     }
 
     nonisolated private func expandedDirectoryURL(for path: String) -> URL {
@@ -501,7 +530,129 @@ struct SSHKeyStore: @unchecked Sendable {
         return true
     }
 
-    nonisolated private func completePairItem(privateKeyURL: URL, publicKeyURL: URL) -> SSHKeyItem? {
+    nonisolated private func isDirectory(_ url: URL) -> Bool {
+        var isDirectory: ObjCBool = false
+        guard fileManager.fileExists(atPath: url.path, isDirectory: &isDirectory) else {
+            return false
+        }
+
+        return isDirectory.boolValue
+    }
+
+    nonisolated private func scanKeyFiles(
+        in rootURL: URL,
+        scanOptions: SSHKeyScanOptions
+    ) throws -> [ScannedKeyFile] {
+        // The root directory must be readable; its failure propagates to the caller.
+        let resolvedRootURL = rootURL.resolvingSymlinksInPath()
+        var scannedFiles = try regularFiles(in: resolvedRootURL).map {
+            ScannedKeyFile(url: $0, relativeDirectory: "")
+        }
+
+        guard scanOptions.includesSubfolders else {
+            return scannedFiles
+        }
+
+        // Resolving symlinks lets us scan symlinked folders (which otherwise fail
+        // directory enumeration) while the visited set guards against symlink cycles.
+        var visitedDirectoryPaths: Set<String> = [resolvedRootURL.path]
+        for directory in subfolderDirectoriesToScan(
+            in: resolvedRootURL,
+            scanOptions: scanOptions,
+            visitedDirectoryPaths: &visitedDirectoryPaths
+        ) {
+            let files = (try? regularFiles(in: directory.url)) ?? []
+            scannedFiles += files.map {
+                ScannedKeyFile(url: $0, relativeDirectory: directory.relativeDirectory)
+            }
+        }
+
+        return scannedFiles
+    }
+
+    nonisolated private func regularFiles(in directoryURL: URL) throws -> [URL] {
+        let fileURLs = try fileManager.contentsOfDirectory(
+            at: directoryURL,
+            includingPropertiesForKeys: [.isRegularFileKey, .creationDateKey, .contentModificationDateKey],
+            options: [.skipsHiddenFiles]
+        )
+
+        return fileURLs.filter { isRegularFile($0) }
+    }
+
+    nonisolated private func subfolderDirectoriesToScan(
+        in rootURL: URL,
+        scanOptions: SSHKeyScanOptions,
+        visitedDirectoryPaths: inout Set<String>
+    ) -> [ScanDirectory] {
+        switch scanOptions.scope {
+        case .allSubfolders:
+            return descendantDirectories(
+                of: rootURL,
+                relativeDirectory: "",
+                visitedDirectoryPaths: &visitedDirectoryPaths
+            )
+        case .selectedFolders:
+            var directories: [ScanDirectory] = []
+            for relativePath in scanOptions.selectedSubfolders {
+                let folderURL = rootURL
+                    .appendingPathComponent(relativePath, isDirectory: true)
+                    .resolvingSymlinksInPath()
+                guard isDirectory(folderURL), visitedDirectoryPaths.insert(folderURL.path).inserted else {
+                    continue
+                }
+
+                directories.append(ScanDirectory(url: folderURL, relativeDirectory: relativePath))
+                directories += descendantDirectories(
+                    of: folderURL,
+                    relativeDirectory: relativePath,
+                    visitedDirectoryPaths: &visitedDirectoryPaths
+                )
+            }
+
+            return directories
+        }
+    }
+
+    nonisolated private func descendantDirectories(
+        of directoryURL: URL,
+        relativeDirectory: String,
+        visitedDirectoryPaths: inout Set<String>
+    ) -> [ScanDirectory] {
+        guard let contents = try? fileManager.contentsOfDirectory(
+            at: directoryURL,
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [.skipsHiddenFiles]
+        ) else {
+            return []
+        }
+
+        var directories: [ScanDirectory] = []
+        for itemURL in contents where isDirectory(itemURL) {
+            let resolvedURL = itemURL.resolvingSymlinksInPath()
+            guard visitedDirectoryPaths.insert(resolvedURL.path).inserted else {
+                continue
+            }
+
+            let childRelativeDirectory = relativeDirectory.isEmpty
+                ? itemURL.lastPathComponent
+                : "\(relativeDirectory)/\(itemURL.lastPathComponent)"
+            directories.append(ScanDirectory(url: resolvedURL, relativeDirectory: childRelativeDirectory))
+            directories += descendantDirectories(
+                of: resolvedURL,
+                relativeDirectory: childRelativeDirectory,
+                visitedDirectoryPaths: &visitedDirectoryPaths
+            )
+        }
+
+        return directories
+    }
+
+    nonisolated private func completePairItem(
+        privateKeyURL: URL,
+        publicKeyURL: URL,
+        relativeDirectory: String?
+    ) -> SSHKeyItem? {
         guard let privateKey = readPrivateKeyMetadata(at: privateKeyURL) else {
             return nil
         }
@@ -521,11 +672,12 @@ struct SSHKeyStore: @unchecked Sendable {
             fingerprint: publicKey.fingerprint,
             comment: publicKey.comment,
             createdAt: creationDate(for: privateKeyURL),
-            isPassphraseProtected: privateKey.isPassphraseProtected
+            isPassphraseProtected: privateKey.isPassphraseProtected,
+            relativeDirectory: relativeDirectory
         )
     }
 
-    nonisolated private func standaloneKeyItem(for fileURL: URL) -> SSHKeyItem? {
+    nonisolated private func standaloneKeyItem(for fileURL: URL, relativeDirectory: String?) -> SSHKeyItem? {
         if fileURL.pathExtension == "pub", let publicKey = readPublicKey(at: fileURL) {
             return SSHKeyItem(
                 id: fileURL.path,
@@ -538,7 +690,8 @@ struct SSHKeyStore: @unchecked Sendable {
                 fingerprint: publicKey.fingerprint,
                 comment: publicKey.comment,
                 createdAt: creationDate(for: fileURL),
-                isPassphraseProtected: false
+                isPassphraseProtected: false,
+                relativeDirectory: relativeDirectory
             )
         }
 
@@ -557,7 +710,8 @@ struct SSHKeyStore: @unchecked Sendable {
             fingerprint: "Unavailable",
             comment: "No public key",
             createdAt: creationDate(for: fileURL),
-            isPassphraseProtected: privateKey.isPassphraseProtected
+            isPassphraseProtected: privateKey.isPassphraseProtected,
+            relativeDirectory: relativeDirectory
         )
     }
 
@@ -920,6 +1074,16 @@ private extension SSHKeyItem {
             return [filePath]
         }
     }
+}
+
+private struct ScannedKeyFile {
+    let url: URL
+    let relativeDirectory: String
+}
+
+private struct ScanDirectory {
+    let url: URL
+    let relativeDirectory: String
 }
 
 private struct PublicKey {

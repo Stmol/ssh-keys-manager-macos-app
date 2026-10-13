@@ -8,6 +8,28 @@ final class AppModel {
     var selectedKeyID: SSHKeyItem.ID?
     var selectedConfigEntryID: SSHConfigEntry.ID?
     var sshDirectoryPath: String
+    var includeSubfolders: Bool {
+        didSet {
+            preferences.setIncludeSubfolders(includeSubfolders)
+            Task {
+                await refreshAvailableSubfolders()
+            }
+            loadKeys()
+        }
+    }
+    var subfolderScope: SSHSubfolderScope {
+        didSet {
+            preferences.setSubfolderScope(subfolderScope)
+            loadKeys()
+        }
+    }
+    var selectedSubfolders: [String] {
+        didSet {
+            preferences.setSelectedSubfolders(selectedSubfolders)
+            loadKeys()
+        }
+    }
+    var availableSubfolders: [String] = []
     var sshKeygenPath: String
     var hostPropertyIndentation: SSHConfigHostPropertyIndentation {
         didSet {
@@ -111,6 +133,9 @@ final class AppModel {
         self.workspaceValidator = resolvedDependencies.workspaceValidator
         self.externalToolValidator = resolvedDependencies.externalToolValidator
         self.sshDirectoryPath = resolvedDependencies.preferences.sshDirectoryPath
+        self.includeSubfolders = resolvedDependencies.preferences.includeSubfolders
+        self.subfolderScope = resolvedDependencies.preferences.subfolderScope
+        self.selectedSubfolders = resolvedDependencies.preferences.selectedSubfolders
         self.sshKeygenPath = resolvedDependencies.preferences.sshKeygenPath
         self.hostPropertyIndentation = resolvedDependencies.preferences.hostPropertyIndentation
         self.configBackupLimit = resolvedDependencies.preferences.configBackupLimit
@@ -122,6 +147,14 @@ final class AppModel {
         )
         selectedKeyID = self.keys.first?.id
         selectedConfigEntryID = self.configEntries.first?.id
+    }
+
+    var keyScanOptions: SSHKeyScanOptions {
+        SSHKeyScanOptions(
+            includesSubfolders: includeSubfolders,
+            scope: subfolderScope,
+            selectedSubfolders: selectedSubfolders
+        )
     }
 
     var selectedKey: SSHKeyItem? {

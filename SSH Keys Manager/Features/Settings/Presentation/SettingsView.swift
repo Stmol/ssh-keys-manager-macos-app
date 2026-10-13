@@ -320,7 +320,110 @@ private struct SSHDirectoryContent: View {
             }
 
             SSHDirectoryPathRow(model: model)
+
+            Divider()
+
+            SSHSubfolderInclusionRow(model: model)
+
+            if model.includeSubfolders {
+                SSHSubfolderScopeRow(model: model)
+
+                if model.subfolderScope == .selectedFolders {
+                    SSHSubfolderSelectionList(model: model)
+                }
+            }
         }
+        .task {
+            await model.refreshAvailableSubfolders()
+        }
+    }
+}
+
+private struct SSHSubfolderInclusionRow: View {
+    @Bindable var model: AppModel
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Include Subfolders")
+                    .font(.headline)
+                Text("Also list SSH keys stored in folders nested inside the SSH keys directory.")
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Toggle("", isOn: $model.includeSubfolders)
+                .toggleStyle(.switch)
+                .labelsHidden()
+                .help("List keys from subfolders of the SSH keys directory")
+        }
+    }
+}
+
+private struct SSHSubfolderScopeRow: View {
+    @Bindable var model: AppModel
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Subfolders to Include")
+                    .font(.headline)
+                Text("Scan every nested folder, or choose specific folders to include.")
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            AppFormMenuPicker(
+                selection: $model.subfolderScope,
+                items: SSHSubfolderScope.allCases.map {
+                    AppFormMenuItem(title: $0.title, value: $0)
+                },
+                help: "Choose whether to include all subfolders or only selected ones"
+            )
+            .frame(width: 160, alignment: .leading)
+        }
+    }
+}
+
+private struct SSHSubfolderSelectionList: View {
+    @Bindable var model: AppModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            if model.availableSubfolders.isEmpty {
+                Text("No subfolders found in the SSH keys directory.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(model.availableSubfolders, id: \.self) { folder in
+                    SSHSubfolderToggleRow(
+                        folder: folder,
+                        isOn: Binding(
+                            get: { model.selectedSubfolders.contains(folder) },
+                            set: { isOn in model.setSubfolder(folder, included: isOn) }
+                        )
+                    )
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+private struct SSHSubfolderToggleRow: View {
+    let folder: String
+    @Binding var isOn: Bool
+
+    var body: some View {
+        Toggle(isOn: $isOn) {
+            HStack(spacing: 8) {
+                Image(systemName: "folder")
+                    .foregroundStyle(.secondary)
+                Text(folder)
+                    .font(.system(.body, design: .monospaced))
+            }
+        }
+        .toggleStyle(.checkbox)
     }
 }
 

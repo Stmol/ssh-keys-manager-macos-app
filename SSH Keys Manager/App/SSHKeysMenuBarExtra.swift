@@ -144,10 +144,6 @@ private final class MenuBarKeyCommand {
 
 private extension SSHKeyItem {
     var menuBarTitle: String {
-        "\(name) - \(menuBarFileName)"
-    }
-
-    var menuBarFileName: String {
-        URL(fileURLWithPath: filePath).lastPathComponent
+        displayName
     }
 }

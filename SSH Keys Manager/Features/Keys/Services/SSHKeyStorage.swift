@@ -8,6 +8,8 @@ struct SSHKeyRenameResult: Sendable, Equatable {
 protocol SSHKeyStorageManaging: Sendable {
     func updateSSHKeygenPath(_ path: String) async
     func loadKeys(from directoryPath: String) async throws -> SSHKeyInventory
+    func loadKeys(from directoryPath: String, scanOptions: SSHKeyScanOptions) async throws -> SSHKeyInventory
+    func subfolderNames(in directoryPath: String) async throws -> [String]
     func publicKeyContents(for key: SSHKeyItem) async throws -> String
     func privateKeyContents(for key: SSHKeyItem) async throws -> String
     func delete(_ key: SSHKeyItem) async throws
@@ -22,6 +24,14 @@ protocol SSHKeyStorageManaging: Sendable {
 
 extension SSHKeyStorageManaging {
     func updateSSHKeygenPath(_ path: String) async {}
+
+    func loadKeys(from directoryPath: String, scanOptions: SSHKeyScanOptions) async throws -> SSHKeyInventory {
+        try await loadKeys(from: directoryPath)
+    }
+
+    func subfolderNames(in directoryPath: String) async throws -> [String] {
+        []
+    }
 }
 
 actor SSHKeyStorage: SSHKeyStorageManaging {
@@ -37,6 +47,14 @@ actor SSHKeyStorage: SSHKeyStorageManaging {
 
     func loadKeys(from directoryPath: String) async throws -> SSHKeyInventory {
         try keyStore.loadKeys(from: directoryPath)
+    }
+
+    func loadKeys(from directoryPath: String, scanOptions: SSHKeyScanOptions) async throws -> SSHKeyInventory {
+        try keyStore.loadKeys(from: directoryPath, scanOptions: scanOptions)
+    }
+
+    func subfolderNames(in directoryPath: String) async throws -> [String] {
+        try keyStore.subfolderNames(in: directoryPath)
     }
 
     func publicKeyContents(for key: SSHKeyItem) async throws -> String {

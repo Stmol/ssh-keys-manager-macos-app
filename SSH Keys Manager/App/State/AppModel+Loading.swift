@@ -3,7 +3,7 @@ import Foundation
 extension AppModel {
     func reloadKeyInventory(from directoryPath: String? = nil) async throws {
         let path = directoryPath ?? sshDirectoryPath
-        let inventory = try await keyStorage.loadKeys(from: path)
+        let inventory = try await keyStorage.loadKeys(from: path, scanOptions: keyScanOptions)
         guard path == sshDirectoryPath else {
             return
         }

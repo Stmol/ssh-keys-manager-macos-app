@@ -2,6 +2,9 @@ import Foundation
 
 protocol AppPreferencesManaging {
     var sshDirectoryPath: String { get }
+    var includeSubfolders: Bool { get }
+    var subfolderScope: SSHSubfolderScope { get }
+    var selectedSubfolders: [String] { get }
     var sshKeygenPath: String { get }
     var hostPropertyIndentation: SSHConfigHostPropertyIndentation { get }
     var configBackupLimit: Int { get }
@@ -10,6 +13,9 @@ protocol AppPreferencesManaging {
     var clipboardClearSeconds: Int { get }
     var confirmPrivateKeyCopy: Bool { get }
     func setSSHDirectoryPath(_ path: String)
+    func setIncludeSubfolders(_ isEnabled: Bool)
+    func setSubfolderScope(_ scope: SSHSubfolderScope)
+    func setSelectedSubfolders(_ folders: [String])
     func setSSHKeygenPath(_ path: String)
     func setHostPropertyIndentation(_ indentation: SSHConfigHostPropertyIndentation)
     func setConfigBackupLimit(_ limit: Int)
@@ -25,6 +31,9 @@ struct AppPreferences: AppPreferencesManaging {
 
     private enum Keys {
         static let sshDirectoryPath = "sshDirectoryPath"
+        static let includeSubfolders = "includeSubfolders"
+        static let subfolderScope = "subfolderScope"
+        static let selectedSubfolders = "selectedSubfolders"
         static let sshKeygenPath = "sshKeygenPath"
         static let hostPropertyIndentation = "hostPropertyIndentation"
         static let configBackupLimit = "configBackupLimit"
@@ -43,6 +52,22 @@ struct AppPreferences: AppPreferencesManaging {
     var sshDirectoryPath: String {
         let storedPath = userDefaults.string(forKey: Keys.sshDirectoryPath)
         return SSHWorkspacePath.normalizeDirectoryPath(storedPath ?? SSHWorkspacePath.defaultDirectoryPath)
+    }
+
+    var includeSubfolders: Bool {
+        userDefaults.bool(forKey: Keys.includeSubfolders)
+    }
+
+    var subfolderScope: SSHSubfolderScope {
+        guard let storedScope = userDefaults.string(forKey: Keys.subfolderScope) else {
+            return .default
+        }
+
+        return SSHSubfolderScope(rawValue: storedScope) ?? .default
+    }
+
+    var selectedSubfolders: [String] {
+        userDefaults.stringArray(forKey: Keys.selectedSubfolders) ?? []
     }
 
     var sshKeygenPath: String {
@@ -86,6 +111,18 @@ struct AppPreferences: AppPreferencesManaging {
             SSHWorkspacePath.normalizeDirectoryPath(path),
             forKey: Keys.sshDirectoryPath
         )
+    }
+
+    func setIncludeSubfolders(_ isEnabled: Bool) {
+        userDefaults.set(isEnabled, forKey: Keys.includeSubfolders)
+    }
+
+    func setSubfolderScope(_ scope: SSHSubfolderScope) {
+        userDefaults.set(scope.rawValue, forKey: Keys.subfolderScope)
+    }
+
+    func setSelectedSubfolders(_ folders: [String]) {
+        userDefaults.set(folders, forKey: Keys.selectedSubfolders)
     }
 
     func setSSHKeygenPath(_ path: String) {

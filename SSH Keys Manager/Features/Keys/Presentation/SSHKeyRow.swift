@@ -56,7 +56,7 @@ private struct KeyRowText: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
-            Text(key.name)
+            Text(key.displayName)
                 .font(.headline)
                 .foregroundStyle(isSelected ? Color.white : Color.primary)
             Text(key.comment)

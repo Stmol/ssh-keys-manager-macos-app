@@ -20,9 +20,41 @@ extension AppModel {
 
             async let keysReload: Void = loadKeysIfNeeded()
             async let configReload: Void = loadConfigIfNeeded()
-            _ = await (keysReload, configReload)
+            async let subfoldersReload: Void = refreshAvailableSubfolders()
+            _ = await (keysReload, configReload, subfoldersReload)
         } catch {
             showNotification(error.localizedDescription, kind: .danger)
+        }
+    }
+
+    func refreshAvailableSubfolders() async {
+        let directoryPath = sshDirectoryPath
+
+        do {
+            let subfolders = try await keyStorage.subfolderNames(in: directoryPath)
+            guard directoryPath == sshDirectoryPath else {
+                return
+            }
+
+            availableSubfolders = subfolders
+        } catch {
+            guard directoryPath == sshDirectoryPath else {
+                return
+            }
+
+            availableSubfolders = []
+        }
+    }
+
+    func setSubfolder(_ folder: String, included: Bool) {
+        if included {
+            guard !selectedSubfolders.contains(folder) else {
+                return
+            }
+
+            selectedSubfolders.append(folder)
+        } else {
+            selectedSubfolders.removeAll { $0 == folder }
         }
     }
 

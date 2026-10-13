@@ -86,6 +86,18 @@ private struct AppPreferencesWithPrivateKeyCopyConfirmer: AppPreferencesManaging
         preferences.sshDirectoryPath
     }
 
+    var includeSubfolders: Bool {
+        preferences.includeSubfolders
+    }
+
+    var subfolderScope: SSHSubfolderScope {
+        preferences.subfolderScope
+    }
+
+    var selectedSubfolders: [String] {
+        preferences.selectedSubfolders
+    }
+
     var sshKeygenPath: String {
         preferences.sshKeygenPath
     }
@@ -116,6 +128,18 @@ private struct AppPreferencesWithPrivateKeyCopyConfirmer: AppPreferencesManaging
 
     func setSSHDirectoryPath(_ path: String) {
         preferences.setSSHDirectoryPath(path)
+    }
+
+    func setIncludeSubfolders(_ isEnabled: Bool) {
+        preferences.setIncludeSubfolders(isEnabled)
+    }
+
+    func setSubfolderScope(_ scope: SSHSubfolderScope) {
+        preferences.setSubfolderScope(scope)
+    }
+
+    func setSelectedSubfolders(_ folders: [String]) {
+        preferences.setSelectedSubfolders(folders)
     }
 
     func setSSHKeygenPath(_ path: String) {

@@ -22,6 +22,46 @@ enum ReadOnlyModeRestrictionError: LocalizedError, Equatable {
     }
 }
 
+enum SSHSubfolderScope: String, CaseIterable, Identifiable, Sendable {
+    case allSubfolders
+    case selectedFolders
+
+    nonisolated static let `default`: Self = .allSubfolders
+
+    nonisolated var id: Self { self }
+
+    nonisolated var title: String {
+        switch self {
+        case .allSubfolders:
+            "All subfolders"
+        case .selectedFolders:
+            "Selected folders"
+        }
+    }
+}
+
+struct SSHKeyScanOptions: Sendable, Equatable {
+    var includesSubfolders: Bool
+    var scope: SSHSubfolderScope
+    var selectedSubfolders: [String]
+
+    nonisolated static let `default` = SSHKeyScanOptions(
+        includesSubfolders: false,
+        scope: .default,
+        selectedSubfolders: []
+    )
+
+    nonisolated init(
+        includesSubfolders: Bool,
+        scope: SSHSubfolderScope,
+        selectedSubfolders: [String]
+    ) {
+        self.includesSubfolders = includesSubfolders
+        self.scope = scope
+        self.selectedSubfolders = selectedSubfolders
+    }
+}
+
 enum SSHConfigHostPropertyIndentation: Int, CaseIterable, Identifiable, Sendable {
     case twoSpaces = 2
     case fourSpaces = 4

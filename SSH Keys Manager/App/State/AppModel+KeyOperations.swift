@@ -77,7 +77,7 @@ extension AppModel {
     }
 
     func copyPrivateKey(for key: SSHKeyItem) async {
-        guard shouldCopyPrivateKey(named: key.name) else {
+        guard shouldCopyPrivateKey(named: key.displayName) else {
             return
         }
 
@@ -386,7 +386,8 @@ private extension SSHKeyItem {
             fingerprint: fingerprint,
             comment: comment,
             createdAt: createdAt,
-            isPassphraseProtected: isPassphraseProtected
+            isPassphraseProtected: isPassphraseProtected,
+            relativeDirectory: relativeDirectory
         )
     }
 }

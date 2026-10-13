@@ -79,6 +79,108 @@ final class SSHKeyStoreTests: XCTestCase {
         XCTAssertTrue(key.isPassphraseProtected)
     }
 
+    func testLoadKeysWithAllSubfoldersIncludesNestedKeysAndQualifiesDisplayNames() throws {
+        let directory = try makeTemporaryDirectory()
+        let personalDirectory = directory.appendingPathComponent("personal", isDirectory: true)
+        let workDirectory = directory.appendingPathComponent("work", isDirectory: true)
+        try fileManager.createDirectory(at: personalDirectory, withIntermediateDirectories: true)
+        try fileManager.createDirectory(at: workDirectory, withIntermediateDirectories: true)
+
+        try writeCompletePair(named: "id_ed25519", in: directory)
+        try writeCompletePair(named: "id_ed25519", in: personalDirectory)
+        try writeCompletePair(named: "id_ed25519", in: workDirectory)
+
+        let inventory = try SSHKeyStore().loadKeys(
+            from: directory.path,
+            scanOptions: SSHKeyScanOptions(
+                includesSubfolders: true,
+                scope: .allSubfolders,
+                selectedSubfolders: []
+            )
+        )
+
+        XCTAssertEqual(Set(inventory.completePairs.map(\.displayName)), [
+            "id_ed25519",
+            "personal/id_ed25519",
+            "work/id_ed25519"
+        ])
+
+        let rootKey = inventory.completePairs.first { $0.displayName == "id_ed25519" }
+        XCTAssertNil(rootKey?.relativeDirectory)
+        let personalKey = inventory.completePairs.first { $0.displayName == "personal/id_ed25519" }
+        XCTAssertEqual(personalKey?.name, "id_ed25519")
+        XCTAssertEqual(personalKey?.relativeDirectory, "personal")
+    }
+
+    func testLoadKeysWithSelectedFoldersIncludesOnlyChosenSubfolders() throws {
+        let directory = try makeTemporaryDirectory()
+        let personalDirectory = directory.appendingPathComponent("personal", isDirectory: true)
+        let workDirectory = directory.appendingPathComponent("work", isDirectory: true)
+        try fileManager.createDirectory(at: personalDirectory, withIntermediateDirectories: true)
+        try fileManager.createDirectory(at: workDirectory, withIntermediateDirectories: true)
+
+        try writeCompletePair(named: "id_ed25519", in: directory)
+        try writeCompletePair(named: "id_ed25519", in: personalDirectory)
+        try writeCompletePair(named: "id_ed25519", in: workDirectory)
+
+        let inventory = try SSHKeyStore().loadKeys(
+            from: directory.path,
+            scanOptions: SSHKeyScanOptions(
+                includesSubfolders: true,
+                scope: .selectedFolders,
+                selectedSubfolders: ["personal"]
+            )
+        )
+
+        XCTAssertEqual(Set(inventory.completePairs.map(\.displayName)), [
+            "id_ed25519",
+            "personal/id_ed25519"
+        ])
+    }
+
+    func testLoadKeysScansSymlinkedSubfolderInsteadOfSilentlyOmittingIt() throws {
+        let directory = try makeTemporaryDirectory()
+        let externalDirectory = try makeTemporaryDirectory()
+        try writeCompletePair(named: "id_ed25519", in: externalDirectory)
+        try fileManager.createSymbolicLink(
+            at: directory.appendingPathComponent("work", isDirectory: true),
+            withDestinationURL: externalDirectory
+        )
+
+        let inventory = try SSHKeyStore().loadKeys(
+            from: directory.path,
+            scanOptions: SSHKeyScanOptions(
+                includesSubfolders: true,
+                scope: .allSubfolders,
+                selectedSubfolders: []
+            )
+        )
+
+        XCTAssertEqual(inventory.completePairs.map(\.displayName), ["work/id_ed25519"])
+    }
+
+    func testLoadKeysTerminatesWhenSubfolderSymlinkFormsCycle() throws {
+        let directory = try makeTemporaryDirectory()
+        let personalDirectory = directory.appendingPathComponent("personal", isDirectory: true)
+        try fileManager.createDirectory(at: personalDirectory, withIntermediateDirectories: true)
+        try writeCompletePair(named: "id_ed25519", in: personalDirectory)
+        try fileManager.createSymbolicLink(
+            at: personalDirectory.appendingPathComponent("loop", isDirectory: true),
+            withDestinationURL: personalDirectory
+        )
+
+        let inventory = try SSHKeyStore().loadKeys(
+            from: directory.path,
+            scanOptions: SSHKeyScanOptions(
+                includesSubfolders: true,
+                scope: .allSubfolders,
+                selectedSubfolders: []
+            )
+        )
+
+        XCTAssertEqual(inventory.completePairs.map(\.displayName), ["personal/id_ed25519"])
+    }
+
     func testFuzzyMatchReturnsTrueForExactMatch() {
         XCTAssertTrue(SSHKeyItem.fuzzyMatch(query: "id_ed25519", in: "id_ed25519"))
     }
@@ -3161,6 +3263,11 @@ final class SSHKeyStoreTests: XCTestCase {
     ) throws {
         let endMarker = marker.replacingOccurrences(of: "BEGIN", with: "END")
         try "\(marker)\n\(body)\n\(endMarker)\n".write(to: url, atomically: true, encoding: .utf8)
+    }
+
+    private func writeCompletePair(named name: String, in directory: URL) throws {
+        try writePrivateKey(to: directory.appendingPathComponent(name))
+        try writePublicKey(to: directory.appendingPathComponent("\(name).pub"))
     }
 
     private func writeNoopScript(named name: String, in directory: URL, permissions: Int) throws -> URL {
